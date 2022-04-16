@@ -12,17 +12,16 @@ import RxSwift
 class APIManager {
 
     static let shared = APIManager()
-    
-//    func getAnime(page: String) -> Single<AnimeResp> {
-//        var params = [String: AnyObject]()
-//        params[""] = page as AnyObject
-//        
-//        return task(apiType: .OPENAPI_GET_SCHEDULE, params: params).flatMap { (data) -> Single<AnimeResp> in
-//            return APIManager.handleDecode(AnimeResp.self, from: data)
-//        }
-//
-//    }
 
+    func getAnime(page: String) -> Single<AnimeRespModel> {
+        var params = [String: AnyObject]()
+        params["page"] = page as AnyObject
+        
+        return task(apiType: .OPENAPI_GET_ANIME, params: params).flatMap { (data) -> Single<AnimeRespModel> in
+            return APIManager.handleDecode(AnimeRespModel.self, from: data)
+        }
+    }
+    
     public enum DecodeError: Error, LocalizedError {
         case dataNull
         public var errorDescription: String? {
@@ -80,7 +79,7 @@ extension APIManager {
         var host: String {
             switch self {
             case .OPENAPI_GET_ANIME:
-                return "https://api.jikan.moe/v4/top/anime"
+                return "https://api.jikan.moe"
             }
         }
         
