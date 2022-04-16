@@ -22,6 +22,29 @@ class APIManager {
         }
     }
     
+    func getAmaga(page: String) -> Single<String> {
+        var params = [String: AnyObject]()
+        params["page"] = page as AnyObject
+        
+//        return task(apiType: .OPENAPI_GET_ANIME, params: params).flatMap { (data) -> Single<AnimeRespModel> in
+//            return APIManager.handleDecode(AnimeRespModel.self, from: data)
+//        }
+        
+        
+        return task(apiType: .OPENAPI_GET_ANIME, params: params).flatMap { (data) -> Single<String> in
+
+            let JSONString = String(data: data!, encoding: String.Encoding.utf8)
+
+            return Single.create { single in
+
+                single(.success(JSONString ?? "gg"))
+
+                return Disposables.create()
+            }
+
+        }
+    }
+    
     public enum DecodeError: Error, LocalizedError {
         case dataNull
         public var errorDescription: String? {
@@ -75,10 +98,12 @@ extension APIManager {
     
     enum ApiType {
         case OPENAPI_GET_ANIME
+        case OPENAPI_GET_MANGA
         
         var host: String {
             switch self {
-            case .OPENAPI_GET_ANIME:
+            case .OPENAPI_GET_ANIME,
+                    .OPENAPI_GET_MANGA:
                 return "https://api.jikan.moe"
             }
         }
@@ -87,26 +112,31 @@ extension APIManager {
             switch self {
             case .OPENAPI_GET_ANIME:
                 return "/v4/top/anime"
+            case .OPENAPI_GET_MANGA:
+                return "/v4/top/manga"
             }
         }
         
         var method: HTTPMethod {
             switch self {
-            case .OPENAPI_GET_ANIME:
+            case .OPENAPI_GET_ANIME,
+                    .OPENAPI_GET_MANGA:
                 return .get
             }
         }
         
         var headers: [String: String]? {
             switch self {
-            case .OPENAPI_GET_ANIME:
+            case .OPENAPI_GET_ANIME,
+                    .OPENAPI_GET_MANGA:
                 return nil
             }
         }
         
         var encoding: ParameterEncoding {
             switch self {
-            case .OPENAPI_GET_ANIME:
+            case .OPENAPI_GET_ANIME,
+                    .OPENAPI_GET_MANGA:
                 return URLEncoding.default
             }
         }
