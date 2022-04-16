@@ -11,7 +11,7 @@ target 'AnimeAndManga' do
   pod 'RxSwift'
   pod 'RxCocoa'
   pod 'RxDataSources'
-  pod 'Alamofire'
+  pod 'Alamofire', '~> 4.9.1'
 
   target 'AnimeAndMangaTests' do
     inherit! :search_paths
