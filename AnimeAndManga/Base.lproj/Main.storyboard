@@ -90,8 +90,7 @@
                                                                 <constraint firstAttribute="height" constant="30" id="ADr-mv-K7U"/>
                                                                 <constraint firstAttribute="width" constant="30" id="APm-kg-UwD"/>
                                                             </constraints>
-                                                            <state key="normal" title="Button"/>
-                                                            <buttonConfiguration key="configuration" style="plain"/>
+                                                            <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                                         </button>
                                                     </subviews>
                                                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -104,6 +103,7 @@
                                                         <constraint firstItem="i3j-gR-fAV" firstAttribute="leading" secondItem="syp-YU-27x" secondAttribute="leading" id="Fus-u3-lwN"/>
                                                         <constraint firstItem="gKj-Xb-cgj" firstAttribute="leading" secondItem="084-6U-IUj" secondAttribute="leading" constant="25" id="GpA-li-Poq"/>
                                                         <constraint firstItem="6IZ-Ik-BVe" firstAttribute="leading" secondItem="084-6U-IUj" secondAttribute="leading" constant="10" id="Krz-PP-2nP"/>
+                                                        <constraint firstItem="X2d-tg-l5i" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="45i-ao-r5r" secondAttribute="trailing" constant="10" id="Zxq-eM-95P"/>
                                                         <constraint firstItem="X2d-tg-l5i" firstAttribute="centerY" secondItem="084-6U-IUj" secondAttribute="centerY" id="baC-aB-JtM"/>
                                                         <constraint firstItem="6IZ-Ik-BVe" firstAttribute="top" secondItem="gKj-Xb-cgj" secondAttribute="bottom" constant="7" id="e9T-XD-KFx"/>
                                                         <constraint firstItem="gKj-Xb-cgj" firstAttribute="top" secondItem="084-6U-IUj" secondAttribute="top" constant="10" id="gpm-RH-faf"/>
