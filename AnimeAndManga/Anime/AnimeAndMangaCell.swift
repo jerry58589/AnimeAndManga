@@ -27,12 +27,14 @@ class AnimeAndMangaCell: UITableViewCell {
         startDate.text = anime.startDate
         endDate.text = anime.endDate
         
-//        let url = URL(string: anime.image)
-//        let data = try? Data(contentsOf: url!) //make sure your image in this url does exist, otherwise unwrap in a if let check / try-catch
-//        if let xx = Dat
-        
-        img.image = UIImage(data: anime.imageData)
-        
+        let url = URL(string: anime.image)
+
+        DispatchQueue.global().async {
+            let data = try? Data(contentsOf: url!)
+            DispatchQueue.main.async {
+                self.img.image = UIImage(data: data!)
+            }
+        }        
     }
     
 }
