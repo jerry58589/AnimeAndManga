@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import RxSwift
 
 class AnimeAndMangaCell: UITableViewCell {
 
@@ -14,18 +15,34 @@ class AnimeAndMangaCell: UITableViewCell {
     @IBOutlet weak var startDate: UILabel!
     @IBOutlet weak var endDate: UILabel!
     @IBOutlet weak var img: UIImageView!
+    @IBOutlet weak var favoriteBtn: UIButton!
     
+    var disposeBag = DisposeBag()
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        
     }
-
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        disposeBag = DisposeBag()
+    }
+    
     func setupUI(anime: UiAnime) {
         rank.text = anime.rank
         title.text = anime.title
         startDate.text = anime.startDate
         endDate.text = anime.endDate
+        
+        if anime.isFavorite {
+            let image = UIImage(named: "star")?.withRenderingMode(.alwaysOriginal)
+            favoriteBtn.setImage(image, for: .normal)
+        }
+        else {
+            let image = UIImage(named: "unStar")?.withRenderingMode(.alwaysOriginal)
+            favoriteBtn.setImage(image, for: .normal)
+        }
         
         let url = URL(string: anime.image)
 
@@ -34,7 +51,7 @@ class AnimeAndMangaCell: UITableViewCell {
             DispatchQueue.main.async {
                 self.img.image = UIImage(data: data!)
             }
-        }        
+        }
     }
     
 }

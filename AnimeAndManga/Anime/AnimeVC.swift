@@ -18,14 +18,18 @@ class AnimeVC: UIViewController {
     private let disposeBag = DisposeBag()
     private var lastPage = 1
 
-    private let tableViewDataSource = RxTableViewSectionedReloadDataSource <SectionModel<String, UiAnime>>(
-        configureCell: { (dataSource, tableView, indexPath, item) in
-            let cell = tableView.dequeueReusableCell(withIdentifier: "AnimeAndMangaCell") as! AnimeAndMangaCell
+    private lazy var tableViewDataSource = RxTableViewSectionedReloadDataSource <SectionModel<String, UiAnime>>(
+        configureCell: { [weak self] (dataSource, tableView, indexPath, item) in
+            let cell = tableView.dequeueReusableCell(withIdentifier: "AnimeAndMangaCell", for: indexPath) as! AnimeAndMangaCell
             cell.selectionStyle = .none
             cell.setupUI(anime: item)
+            cell.favoriteBtn.rx.tap.subscribe(onNext: { [weak self] in
+                self?.favoriteBtnPressed(anime: item)
+            }).disposed(by: cell.disposeBag)
+
             return cell
         })
-    
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -44,6 +48,21 @@ class AnimeVC: UIViewController {
         viewModel.tableViewDataSubject
             .bind(to: tableView.rx.items(dataSource: tableViewDataSource))
             .disposed(by: disposeBag)
+        
+        
+        tableView.rx.itemSelected
+            .map { indexPath in
+                return (indexPath, self.tableViewDataSource[indexPath])
+            }
+            .subscribe(onNext: { [weak self] (indexPath, anime) in
+                print("pressed", anime.rank)
+            })
+            .disposed(by: disposeBag)
+
+    }
+    
+    private func favoriteBtnPressed(anime: UiAnime) {
+        viewModel.setFavorite(anime: anime)
     }
 }
 
@@ -56,5 +75,8 @@ extension AnimeVC: UITableViewDelegate, UIScrollViewDelegate {
             lastPage += 1
             viewModel.getScheduleViewObject(page: lastPage)
         }
+    }
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 85
     }
 }
