@@ -23,6 +23,7 @@ class AnimeVC: UIViewController {
             
             if dataSource.sectionModels[indexPath.section].model == CellType.Loading.rawValue {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "LoadingCell", for: indexPath) as! LoadingCell
+                cell.selectionStyle = .none
                 cell.updateUI()
                 return cell
             }
@@ -61,8 +62,12 @@ class AnimeVC: UIViewController {
             .map { indexPath in
                 return (indexPath, self.tableViewDataSource[indexPath])
             }
-            .subscribe(onNext: { [weak self] (indexPath, anime) in
-                print("pressed", anime.rank)
+            .subscribe(onNext: { (indexPath, anime) in
+                if let url = URL(string: anime.url) {
+                    if UIApplication.shared.canOpenURL(url) {
+                        UIApplication.shared.open(url, options: [:])
+                    }
+                }
             })
             .disposed(by: disposeBag)
 

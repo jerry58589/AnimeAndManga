@@ -55,7 +55,7 @@ class AnimeVM {
 
         allUiAnime = allUiAnime.map { uiAnime -> UiAnime in
             if uiAnime.id == anime.id {
-                return .init(id: anime.id, image: anime.image, title: anime.title, rank: anime.rank, startDate: anime.startDate, endDate: anime.endDate, isFavorite: !anime.isFavorite)
+                return .init(id: anime.id, image: anime.image, title: anime.title, rank: anime.rank, startDate: anime.startDate, endDate: anime.endDate, url: anime.url, isFavorite: !anime.isFavorite)
             }
             else {
                 return uiAnime
@@ -76,7 +76,7 @@ class AnimeVM {
             let id = data.mal_id
             let isFavorite = favoriteList.contains(id)
             
-            return .init(id: id, image: data.images.jpg.image_url ?? "noImage", title: data.title, rank: String(data.rank), startDate: data.aired.from.components(separatedBy: "T").first ?? data.aired.from, endDate: (data.aired.to ?? "nowT").components(separatedBy: "T").first ?? "now", isFavorite: isFavorite)
+            return .init(id: id, image: data.images.jpg.image_url ?? "noImage", title: data.title, rank: String(data.rank), startDate: data.aired.from.components(separatedBy: "T").first ?? data.aired.from, endDate: (data.aired.to ?? "nowT").components(separatedBy: "T").first ?? "now", url: data.url, isFavorite: isFavorite)
         }
         
         allUiAnime += newUiAnimeList
@@ -90,7 +90,7 @@ class AnimeVM {
         
         var sectionModel = [viewObject].map({ return SectionModel(model: CellType.AnimeAndManga.rawValue, items: $0)})
         if getPageStatus() == .LoadingMore {
-            sectionModel.append(.init(model: CellType.Loading.rawValue, items: [.init(id: 0, image: "", title: "", rank: "", startDate: "", endDate: "", isFavorite: false)]))
+            sectionModel.append(.init(model: CellType.Loading.rawValue, items: [.init(id: 0, image: "", title: "", rank: "", startDate: "", endDate: "", url: "", isFavorite: false)]))
         }
         
         return sectionModel

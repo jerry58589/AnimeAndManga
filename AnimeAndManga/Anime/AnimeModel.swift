@@ -14,5 +14,6 @@ struct UiAnime {
     let rank: String
     let startDate: String
     let endDate: String
+    let url: String
     let isFavorite: Bool
 }
