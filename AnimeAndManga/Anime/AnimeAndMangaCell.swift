@@ -44,12 +44,16 @@ class AnimeAndMangaCell: UITableViewCell {
             favoriteBtn.setImage(image, for: .normal)
         }
         
-        let url = URL(string: anime.image)
-
         DispatchQueue.global().async {
-            let data = try? Data(contentsOf: url!)
-            DispatchQueue.main.async {
-                self.img.image = UIImage(data: data!)
+            if let url = URL(string: anime.image), let data = try? Data(contentsOf: url) {
+                DispatchQueue.main.async {
+                    self.img.image = UIImage(data: data)
+                }
+            }
+            else {
+                DispatchQueue.main.async {
+                    self.img.image = UIImage(named: "noImage")
+                }
             }
         }
     }
