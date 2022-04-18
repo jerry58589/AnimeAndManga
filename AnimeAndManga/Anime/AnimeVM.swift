@@ -35,11 +35,7 @@ class AnimeVM {
     }
 
     func setFavorite(anime: UiAnime) {
-        print("current id =", anime.id, "  isfav =", anime.isFavorite)
-
         var favoriteList: [Int] = getFavoriteList()
-        print("list =", favoriteList)
-        print()
 
         if anime.isFavorite {
             favoriteList = favoriteList.filter({$0 != anime.id})
