@@ -37,15 +37,15 @@
                                 <rect key="frame" x="0.0" y="44" width="414" height="769"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="AnimeAndMangaCell" rowHeight="97" id="UBf-Fx-wIE" customClass="AnimeAndMangaCell" customModule="AnimeAndManga" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="44.5" width="414" height="97"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="AnimeAndMangaCell" rowHeight="85" id="UBf-Fx-wIE" customClass="AnimeAndMangaCell" customModule="AnimeAndManga" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="44.5" width="414" height="85"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="UBf-Fx-wIE" id="ptx-GO-oJ0">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="97"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="85"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="084-6U-IUj">
-                                                    <rect key="frame" x="0.0" y="0.0" width="414" height="97"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="414" height="85"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gKj-Xb-cgj">
                                                             <rect key="frame" x="25" y="10" width="37.5" height="18"/>
@@ -60,26 +60,26 @@
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="X2d-tg-l5i">
-                                                            <rect key="frame" x="324" y="8.5" width="80" height="80"/>
+                                                            <rect key="frame" x="324" y="2.5" width="80" height="80"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="80" id="72g-nW-kIO"/>
                                                                 <constraint firstAttribute="height" constant="80" id="nHZ-mu-SXf"/>
                                                             </constraints>
                                                         </imageView>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="i3j-gR-fAV">
-                                                            <rect key="frame" x="77.5" y="72.5" width="31" height="14.5"/>
+                                                            <rect key="frame" x="77.5" y="60.5" width="31" height="14.5"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                             <color key="textColor" systemColor="systemGrayColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="45i-ao-r5r">
-                                                            <rect key="frame" x="123" y="72.5" width="31" height="14.5"/>
+                                                            <rect key="frame" x="123" y="60.5" width="31" height="14.5"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                             <color key="textColor" systemColor="systemGrayColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="~" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LCj-k5-mSd">
-                                                            <rect key="frame" x="111.5" y="72" width="8.5" height="16"/>
+                                                            <rect key="frame" x="111.5" y="60" width="8.5" height="16"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                             <color key="textColor" systemColor="systemGrayColor"/>
                                                             <nil key="highlightedColor"/>
@@ -129,6 +129,26 @@
                                             <outlet property="rank" destination="gKj-Xb-cgj" id="1ss-hQ-90A"/>
                                             <outlet property="startDate" destination="i3j-gR-fAV" id="pDl-F5-w5C"/>
                                             <outlet property="title" destination="syp-YU-27x" id="5qU-Oq-IpS"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="LoadingCell" rowHeight="85" id="ZOv-gA-Yfb" customClass="LoadingCell" customModule="AnimeAndManga" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="129.5" width="414" height="85"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ZOv-gA-Yfb" id="ZTq-U3-LUb">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="85"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="zMk-JR-1DC">
+                                                    <rect key="frame" x="188.5" y="24" width="37" height="37"/>
+                                                </activityIndicatorView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="zMk-JR-1DC" firstAttribute="centerY" secondItem="ZTq-U3-LUb" secondAttribute="centerY" id="enO-Rk-1L4"/>
+                                                <constraint firstItem="zMk-JR-1DC" firstAttribute="centerX" secondItem="ZTq-U3-LUb" secondAttribute="centerX" id="k9T-1L-4PM"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="loading" destination="zMk-JR-1DC" id="fxk-9G-K73"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>

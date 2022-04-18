@@ -29,7 +29,7 @@ class AnimeAndMangaCell: UITableViewCell {
         disposeBag = DisposeBag()
     }
     
-    func setupUI(anime: UiAnime) {
+    func updateUI(anime: UiAnime) {
         rank.text = anime.rank
         title.text = anime.title
         startDate.text = anime.startDate

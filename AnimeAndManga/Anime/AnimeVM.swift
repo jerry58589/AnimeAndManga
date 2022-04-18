@@ -14,6 +14,11 @@ enum PageStatus {
     case NotLoadingMore
 }
 
+enum CellType: String {
+    case AnimeAndManga
+    case Loading
+}
+
 class AnimeVM {
     private let disposeBag = DisposeBag()
     private var allUiAnime = [UiAnime]()
@@ -22,12 +27,14 @@ class AnimeVM {
 
     func getScheduleViewObject(page: Int) {
         pageStatus = .LoadingMore
+        self.tableViewDataSubject.onNext(genSectionModel(viewObject: allUiAnime))
+        
         APIManager.shared.getAnime(page: String(page)).map { [weak self] viewObject -> [UiAnime] in
             return self?.genUiAnimeList(viewObject: viewObject) ?? []
         }
         .subscribe(onSuccess: { [weak self] viewObject in
-            self?.tableViewDataSubject.onNext((self?.genSectionModel(viewObject: viewObject))!)
             self?.pageStatus = .NotLoadingMore
+            self?.tableViewDataSubject.onNext((self?.genSectionModel(viewObject: viewObject))!)
         }, onFailure: { [weak self] err in
             print(err)
             self?.tableViewDataSubject.onError(err)
@@ -80,7 +87,13 @@ class AnimeVM {
     }
     
     private func genSectionModel(viewObject: [UiAnime]) -> [SectionModel<String, UiAnime>] {
-        return [viewObject].map({ return SectionModel(model: "", items: $0)})
+        
+        var sectionModel = [viewObject].map({ return SectionModel(model: CellType.AnimeAndManga.rawValue, items: $0)})
+        if getPageStatus() == .LoadingMore {
+            sectionModel.append(.init(model: CellType.Loading.rawValue, items: [.init(id: 0, image: "", title: "", rank: "", startDate: "", endDate: "", isFavorite: false)]))
+        }
+        
+        return sectionModel
     }
     
     private func getFavoriteList() -> [Int] {

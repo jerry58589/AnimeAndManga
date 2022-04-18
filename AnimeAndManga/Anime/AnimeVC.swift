@@ -20,14 +20,21 @@ class AnimeVC: UIViewController {
 
     private lazy var tableViewDataSource = RxTableViewSectionedReloadDataSource <SectionModel<String, UiAnime>>(
         configureCell: { [weak self] (dataSource, tableView, indexPath, item) in
-            let cell = tableView.dequeueReusableCell(withIdentifier: "AnimeAndMangaCell", for: indexPath) as! AnimeAndMangaCell
-            cell.selectionStyle = .none
-            cell.setupUI(anime: item)
-            cell.favoriteBtn.rx.tap.subscribe(onNext: { [weak self] in
-                self?.favoriteBtnPressed(anime: item)
-            }).disposed(by: cell.disposeBag)
-
-            return cell
+            
+            if dataSource.sectionModels[indexPath.section].model == CellType.Loading.rawValue {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "LoadingCell", for: indexPath) as! LoadingCell
+                cell.updateUI()
+                return cell
+            }
+            else {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "AnimeAndMangaCell", for: indexPath) as! AnimeAndMangaCell
+                cell.selectionStyle = .none
+                cell.updateUI(anime: item)
+                cell.favoriteBtn.rx.tap.subscribe(onNext: { [weak self] in
+                    self?.favoriteBtnPressed(anime: item)
+                }).disposed(by: cell.disposeBag)
+                return cell
+            }
         })
         
     override func viewDidLoad() {
