@@ -45,7 +45,7 @@ class AnimeAndMangaCell: UITableViewCell {
         }
         
         DispatchQueue.global().async {
-            if let url = URL(string: anime.image), let data = try? Data(contentsOf: url) {
+            if let url = URL(string: anime.imageUrl), let data = try? Data(contentsOf: url) {
                 DispatchQueue.main.async {
                     self.img.image = UIImage(data: data)
                 }

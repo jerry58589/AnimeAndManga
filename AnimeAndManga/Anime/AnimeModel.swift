@@ -7,9 +7,9 @@
 
 import Foundation
 
-struct UiAnime {
+struct UiAnime: Codable {
     let id: Int
-    let image: String
+    let imageUrl: String
     let title: String
     let rank: String
     let startDate: String

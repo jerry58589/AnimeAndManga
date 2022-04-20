@@ -45,16 +45,17 @@ class AnimeVC: UIViewController {
         setupUI()
         dataBinding()
         
-        viewModel.getScheduleViewObject(page: lastPage)
+        viewModel.getNewPage(lastPage)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        viewModel.updateSectionModel()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        self.disposeBag = DisposeBag()
+//        self.disposeBag = DisposeBag()
     }
     
     private func setupUI() {
@@ -91,7 +92,7 @@ class AnimeVC: UIViewController {
     }
     
     private func favoriteBtnPressed(anime: UiAnime) {
-        viewModel.setFavorite(anime: anime)
+        viewModel.setFavorite(anime)
     }
     
     private func addBtnPressed() {
@@ -109,7 +110,7 @@ extension AnimeVC: UITableViewDelegate, UIScrollViewDelegate {
                         
         if scrollView.contentSize.height - (scrollView.frame.size.height + scrollView.contentOffset.y) <= -10 {
             lastPage += 1
-            viewModel.getScheduleViewObject(page: lastPage)
+            viewModel.getNewPage(lastPage)
         }
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

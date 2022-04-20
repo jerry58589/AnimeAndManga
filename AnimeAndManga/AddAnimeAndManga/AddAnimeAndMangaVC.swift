@@ -24,6 +24,7 @@ class AddAnimeAndMangaVC: UIViewController {
     private let endDatePicker = UIDatePicker()
     private var formatter = DateFormatter()
     private var disposeBag = DisposeBag()
+    private let viewModel: AddAnimeAndMangaVM = .init()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -98,6 +99,10 @@ class AddAnimeAndMangaVC: UIViewController {
                 self?.saveBtnPressed()
             }).disposed(by: disposeBag)
         
+        viewModel.setAnimeMangaSubject
+            .subscribe(onNext: { [weak self] _ in
+                self?.back()
+            }).disposed(by: disposeBag)
     }
     
 
@@ -106,9 +111,14 @@ class AddAnimeAndMangaVC: UIViewController {
     }
 
     private func saveBtnPressed() {
-        let newAnime = UiAnime(id: 0, image: imgUrlText.text ?? "", title: titleText.text ?? "", rank: rankText.text ?? "", startDate: startDateText.text ?? "", endDate: endDateText.text ?? "", url: urlText.text ?? "", isFavorite: favoriteSwitch.isOn)
+        let randomId = Int.random(in: 10000000...99999999)
         
-        print(newAnime)
+        let newAnime = UiAnime(id: randomId, imageUrl: imgUrlText.text ?? "", title: titleText.text ?? "", rank: rankText.text ?? "", startDate: startDateText.text ?? "", endDate: endDateText.text ?? "", url: urlText.text ?? "", isFavorite: favoriteSwitch.isOn)
+                
+        viewModel.setAnimeManga(newAnime)
     }
     
+    private func back() {
+        self.navigationController?.popViewController(animated: true)
+    }
 }

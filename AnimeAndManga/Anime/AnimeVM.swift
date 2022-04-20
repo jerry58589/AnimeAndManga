@@ -21,27 +21,28 @@ enum CellType: String {
 
 class AnimeVM {
     private let disposeBag = DisposeBag()
-    private var allUiAnime = [UiAnime]()
+    private var apiAnimeList = [UiAnime]()
     private var pageStatus: PageStatus = .NotLoadingMore
     let tableViewDataSubject = PublishSubject<[SectionModel<String, UiAnime>]>()
 
-    func getScheduleViewObject(page: Int) {
+    func getNewPage(_ page: Int) {
         pageStatus = .LoadingMore
-        self.tableViewDataSubject.onNext(genSectionModel(viewObject: allUiAnime))
+        updateSectionModel()
         
         APIManager.shared.getAnime(page: String(page)).map { [weak self] viewObject -> [UiAnime] in
-            return self?.genUiAnimeList(viewObject: viewObject) ?? []
+            return self?.genUiAnimeList(viewObject) ?? []
         }
-        .subscribe(onSuccess: { [weak self] viewObject in
+        .subscribe(onSuccess: { [weak self] newUiAnimeList in
             self?.pageStatus = .NotLoadingMore
-            self?.tableViewDataSubject.onNext((self?.genSectionModel(viewObject: viewObject))!)
+            self?.apiAnimeList += newUiAnimeList
+            self?.updateSectionModel()
         }, onFailure: { [weak self] err in
             print(err)
             self?.tableViewDataSubject.onError(err)
         }).disposed(by: disposeBag)
     }
-
-    func setFavorite(anime: UiAnime) {
+    
+    func setFavorite(_ anime: UiAnime) {
         var favoriteList: [Int] = getFavoriteList()
 
         if anime.isFavorite {
@@ -52,55 +53,62 @@ class AnimeVM {
         }
 
         setFavoriteList(favoriteList)
-
-        allUiAnime = allUiAnime.map { uiAnime -> UiAnime in
-            if uiAnime.id == anime.id {
-                return .init(id: anime.id, image: anime.image, title: anime.title, rank: anime.rank, startDate: anime.startDate, endDate: anime.endDate, url: anime.url, isFavorite: !anime.isFavorite)
-            }
-            else {
-                return uiAnime
-            }
-        }
-        
-        tableViewDataSubject.onNext((genSectionModel(viewObject: allUiAnime)))
+        updateSectionModel()
     }
     
     func getPageStatus() -> PageStatus {
         return pageStatus
     }
 
-    private func genUiAnimeList(viewObject: AnimeRespModel) -> [UiAnime] {
+    func updateSectionModel() {
+        var newUiAnimeList = apiAnimeList
+        
+        newUiAnimeList += getCustomizeAnimeManga()
+        newUiAnimeList = genFavoriteUiAnimeList(newUiAnimeList)
+        newUiAnimeList = newUiAnimeList.sorted(by: {Int($0.rank) ?? 0 < Int($1.rank) ?? 0})
+        
+        self.tableViewDataSubject.onNext(genSectionModel(newUiAnimeList))
+    }
+    
+    private func genUiAnimeList(_ viewObject: AnimeRespModel) -> [UiAnime] {
         let favoriteList: [Int] = getFavoriteList()
 
-        let newUiAnimeList = viewObject.data.map { data -> UiAnime in
+        return viewObject.data.map { data -> UiAnime in
             let id = data.mal_id
             let isFavorite = favoriteList.contains(id)
             
-            return .init(id: id, image: data.images.jpg.image_url ?? "noImage", title: data.title, rank: String(data.rank), startDate: data.aired.from.components(separatedBy: "T").first ?? data.aired.from, endDate: (data.aired.to ?? "nowT").components(separatedBy: "T").first ?? "now", url: data.url, isFavorite: isFavorite)
+            return .init(id: id, imageUrl: data.images.jpg.image_url ?? "noImage", title: data.title, rank: String(data.rank), startDate: data.aired.from.components(separatedBy: "T").first ?? data.aired.from, endDate: (data.aired.to ?? "nowT").components(separatedBy: "T").first ?? "now", url: data.url, isFavorite: isFavorite)
         }
+    }
+
+    private func genFavoriteUiAnimeList(_ animeList: [UiAnime]) -> [UiAnime] {
+        let favoriteList = getFavoriteList()
         
-        allUiAnime += newUiAnimeList
-        
-        allUiAnime = allUiAnime.sorted(by: {Int($0.rank) ?? 0 < Int($1.rank) ?? 0})
-        
-        return allUiAnime
+        return animeList.map { uiAnime -> UiAnime in
+            let isFavorite = favoriteList.contains(uiAnime.id)
+            return .init(id: uiAnime.id, imageUrl: uiAnime.imageUrl, title: uiAnime.title, rank: uiAnime.rank, startDate: uiAnime.startDate, endDate: uiAnime.endDate, url: uiAnime.url, isFavorite: isFavorite)
+        }
     }
     
-    private func genSectionModel(viewObject: [UiAnime]) -> [SectionModel<String, UiAnime>] {
-        
+    private func genSectionModel(_ viewObject: [UiAnime]) -> [SectionModel<String, UiAnime>] {
         var sectionModel = [viewObject].map({ return SectionModel(model: CellType.AnimeAndManga.rawValue, items: $0)})
+        
         if getPageStatus() == .LoadingMore {
-            sectionModel.append(.init(model: CellType.Loading.rawValue, items: [.init(id: 0, image: "", title: "", rank: "", startDate: "", endDate: "", url: "", isFavorite: false)]))
+            sectionModel.append(.init(model: CellType.Loading.rawValue, items: [.init(id: 0, imageUrl: "", title: "", rank: "", startDate: "", endDate: "", url: "", isFavorite: false)]))
         }
         
         return sectionModel
     }
     
     private func getFavoriteList() -> [Int] {
-        return UserDefaults.standard.object(forKey: "favoriteList") as? [Int] ?? []
+        return UserDefaultManager.shared.getFavoriteList()
     }
 
     private func setFavoriteList(_ list: [Int]) {
-        UserDefaults.standard.set(list, forKey: "favoriteList")
+        UserDefaultManager.shared.setFavoriteList(list)
+    }
+    
+    private func getCustomizeAnimeManga() -> [UiAnime] {
+        return UserDefaultManager.shared.getCustomizeAnimeManga()
     }
 }

@@ -12,6 +12,8 @@
 		A4E923D68C670AE430741333 /* Pods_AnimeAndMangaTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1893A0A0F4A3BD1F97555503 /* Pods_AnimeAndMangaTests.framework */; };
 		C429F679280D0561007099B1 /* LoadingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C429F678280D0561007099B1 /* LoadingCell.swift */; };
 		C429F67B280D1A87007099B1 /* AddAnimeAndMangaVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C429F67A280D1A86007099B1 /* AddAnimeAndMangaVC.swift */; };
+		C429F680280FA932007099B1 /* AddAnimeAndMangaVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = C429F67F280FA932007099B1 /* AddAnimeAndMangaVM.swift */; };
+		C429F685280FB373007099B1 /* UserDefaultManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C429F684280FB373007099B1 /* UserDefaultManager.swift */; };
 		C4E90FA7280A9D500069F2FB /* AnimeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4E90FA6280A9D500069F2FB /* AnimeVC.swift */; };
 		C4E90FA9280A9D720069F2FB /* MangaVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4E90FA8280A9D720069F2FB /* MangaVC.swift */; };
 		C4E90FAD280AA0CB0069F2FB /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4E90FAC280AA0CB0069F2FB /* APIManager.swift */; };
@@ -57,6 +59,8 @@
 		C31B62BE0CEA0A3560B6A074 /* Pods-AnimeAndManga-AnimeAndMangaUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AnimeAndManga-AnimeAndMangaUITests.release.xcconfig"; path = "Target Support Files/Pods-AnimeAndManga-AnimeAndMangaUITests/Pods-AnimeAndManga-AnimeAndMangaUITests.release.xcconfig"; sourceTree = "<group>"; };
 		C429F678280D0561007099B1 /* LoadingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingCell.swift; sourceTree = "<group>"; };
 		C429F67A280D1A86007099B1 /* AddAnimeAndMangaVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddAnimeAndMangaVC.swift; sourceTree = "<group>"; };
+		C429F67F280FA932007099B1 /* AddAnimeAndMangaVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddAnimeAndMangaVM.swift; sourceTree = "<group>"; };
+		C429F684280FB373007099B1 /* UserDefaultManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultManager.swift; sourceTree = "<group>"; };
 		C4E90FA6280A9D500069F2FB /* AnimeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeVC.swift; sourceTree = "<group>"; };
 		C4E90FA8280A9D720069F2FB /* MangaVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MangaVC.swift; sourceTree = "<group>"; };
 		C4E90FAC280AA0CB0069F2FB /* APIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
@@ -130,6 +134,16 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		C429F67E280FA8F0007099B1 /* AddAnimeAndManga */ = {
+			isa = PBXGroup;
+			children = (
+				C4E90FB7280B0EA10069F2FB /* AnimeAndMangaCell.swift */,
+				C429F67A280D1A86007099B1 /* AddAnimeAndMangaVC.swift */,
+				C429F67F280FA932007099B1 /* AddAnimeAndMangaVM.swift */,
+			);
+			path = AddAnimeAndManga;
+			sourceTree = "<group>";
+		};
 		C4E90FAA280AA06A0069F2FB /* Manga */ = {
 			isa = PBXGroup;
 			children = (
@@ -144,9 +158,7 @@
 				C4E90FA6280A9D500069F2FB /* AnimeVC.swift */,
 				C4E90FB3280AF4CA0069F2FB /* AnimeVM.swift */,
 				C4E90FB5280AF4DE0069F2FB /* AnimeModel.swift */,
-				C4E90FB7280B0EA10069F2FB /* AnimeAndMangaCell.swift */,
 				C429F678280D0561007099B1 /* LoadingCell.swift */,
-				C429F67A280D1A86007099B1 /* AddAnimeAndMangaVC.swift */,
 			);
 			path = Anime;
 			sourceTree = "<group>";
@@ -163,6 +175,7 @@
 			isa = PBXGroup;
 			children = (
 				C4E90FAC280AA0CB0069F2FB /* APIManager.swift */,
+				C429F684280FB373007099B1 /* UserDefaultManager.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -198,6 +211,7 @@
 				C4E90FAE280AB2020069F2FB /* ResponseModel */,
 				C4E90FAB280AA0760069F2FB /* Anime */,
 				C4E90FAA280AA06A0069F2FB /* Manga */,
+				C429F67E280FA8F0007099B1 /* AddAnimeAndManga */,
 				C4F142ED280A9838008797A8 /* Main.storyboard */,
 				C4F142F0280A9840008797A8 /* Assets.xcassets */,
 				C4F142F2280A9840008797A8 /* LaunchScreen.storyboard */,
@@ -462,11 +476,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C429F680280FA932007099B1 /* AddAnimeAndMangaVM.swift in Sources */,
 				C429F67B280D1A87007099B1 /* AddAnimeAndMangaVC.swift in Sources */,
 				C4E90FA9280A9D720069F2FB /* MangaVC.swift in Sources */,
 				C4E90FB4280AF4CA0069F2FB /* AnimeVM.swift in Sources */,
 				C4F142E8280A9838008797A8 /* AppDelegate.swift in Sources */,
 				C4E90FAD280AA0CB0069F2FB /* APIManager.swift in Sources */,
+				C429F685280FB373007099B1 /* UserDefaultManager.swift in Sources */,
 				C429F679280D0561007099B1 /* LoadingCell.swift in Sources */,
 				C4F142EA280A9838008797A8 /* SceneDelegate.swift in Sources */,
 				C4E90FB2280AB48C0069F2FB /* AnimeRespModel.swift in Sources */,
