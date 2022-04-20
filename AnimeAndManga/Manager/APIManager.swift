@@ -37,7 +37,7 @@ class APIManager {
 
             return Single.create { single in
 
-                single(.success(JSONString ?? "gg"))
+                single(.success(JSONString ?? ""))
 
                 return Disposables.create()
             }

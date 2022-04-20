@@ -9,6 +9,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 import RxDataSources
+import SafariServices
 
 class AnimeVC: UIViewController {
     
@@ -71,16 +72,21 @@ class AnimeVC: UIViewController {
             .bind(to: tableView.rx.items(dataSource: tableViewDataSource))
             .disposed(by: disposeBag)
         
-        
         tableView.rx.itemSelected
             .map { indexPath in
                 return (indexPath, self.tableViewDataSource[indexPath])
             }
-            .subscribe(onNext: { (indexPath, anime) in
+            .subscribe(onNext: { [weak self] (indexPath, anime) in
+                
                 if let url = URL(string: anime.url) {
-                    if UIApplication.shared.canOpenURL(url) {
-                        UIApplication.shared.open(url, options: [:])
-                    }
+                    let config = SFSafariViewController.Configuration()
+                    config.entersReaderIfAvailable = true
+                    
+                    let vc = SFSafariViewController(url: url, configuration: config)
+                    self?.present(vc, animated: true)
+                }
+                else {
+                    self?.urlErrorHandle()
                 }
             })
             .disposed(by: disposeBag)
@@ -100,6 +106,13 @@ class AnimeVC: UIViewController {
         let vc: AddAnimeAndMangaVC = storyboard.instantiateViewController(withIdentifier: "AddAnimeAndMangaVC") as! AddAnimeAndMangaVC
         
         self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    private func urlErrorHandle() {
+        let controller = UIAlertController(title: "Error", message: "Url can not open.", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+        controller.addAction(okAction)
+        present(controller, animated: true, completion: nil)
     }
 }
 
