@@ -68,7 +68,7 @@ class AddAnimeMangaVC: UIViewController {
         self.view.addGestureRecognizer(tap)
         
         viewModel?.titleSubject
-            .subscribe(onNext: { [weak self] title in
+            .subscribe(onNext: { [weak self] (title) in
                 self?.title = title
             }).disposed(by: disposeBag)
         

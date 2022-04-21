@@ -48,27 +48,27 @@ class AnimeMangaVM {
         updateSectionModel()
         
         if type == .Anime {
-            APIManager.shared.getAnime(page: String(page)).map { [weak self] viewObject -> [UiAnimeManga] in
+            APIManager.shared.getAnime(page: String(page)).map { [weak self] (viewObject) -> [UiAnimeManga] in
                 return self?.genAnimeUiAnimeList(viewObject) ?? []
             }
-            .subscribe(onSuccess: { [weak self] newUiAnimeList in
+            .subscribe(onSuccess: { [weak self] (newUiAnimeList) in
                 self?.pageStatus = .NotLoadingMore
                 self?.apiAnimeMangaList += newUiAnimeList
                 self?.updateSectionModel()
-            }, onFailure: { [weak self] err in
+            }, onFailure: { [weak self] (err) in
                 print(err)
                 self?.tableViewDataSubject.onError(err)
             }).disposed(by: disposeBag)
         }
         else {
-            APIManager.shared.getManga(page: String(page)).map { [weak self] viewObject -> [UiAnimeManga] in
+            APIManager.shared.getManga(page: String(page)).map { [weak self] (viewObject) -> [UiAnimeManga] in
                 return self?.genMangaUiAnimeList(viewObject) ?? []
             }
-            .subscribe(onSuccess: { [weak self] newUiAnimeList in
+            .subscribe(onSuccess: { [weak self] (newUiAnimeList) in
                 self?.pageStatus = .NotLoadingMore
                 self?.apiAnimeMangaList += newUiAnimeList
                 self?.updateSectionModel()
-            }, onFailure: { [weak self] err in
+            }, onFailure: { [weak self] (err) in
                 print(err)
                 self?.tableViewDataSubject.onError(err)
             }).disposed(by: disposeBag)

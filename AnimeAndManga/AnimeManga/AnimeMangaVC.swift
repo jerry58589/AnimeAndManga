@@ -67,7 +67,7 @@ class AnimeMangaVC: UIViewController {
 
     private func dataBinding() {
         viewModel?.titleSubject
-            .subscribe(onNext: { [weak self] title in
+            .subscribe(onNext: { [weak self] (title) in
                 self?.title = title
             }).disposed(by: disposeBag)
         
@@ -76,12 +76,12 @@ class AnimeMangaVC: UIViewController {
             .disposed(by: disposeBag)
         
         tableView?.rx.itemSelected
-            .map { indexPath in
-                return (indexPath, self.tableViewDataSource[indexPath])
+            .map { [weak self] (indexPath) in
+                return (indexPath, self?.tableViewDataSource[indexPath])
             }
-            .subscribe(onNext: { [weak self] (indexPath, anime) in
+            .subscribe(onNext: { [weak self] (indexPath, animeManga) in
                 
-                if let url = URL(string: anime.url) {
+                if let url = URL(string: animeManga?.url ?? "") {
                     let config = SFSafariViewController.Configuration()
                     config.entersReaderIfAvailable = true
                     
@@ -94,8 +94,8 @@ class AnimeMangaVC: UIViewController {
             })
             .disposed(by: disposeBag)
         
-        addBtn.rx.tap.subscribe(onNext: {
-            self.addBtnPressed()
+        addBtn.rx.tap.subscribe(onNext: { [weak self] _ in
+            self?.addBtnPressed()
         }).disposed(by: disposeBag)
 
     }
