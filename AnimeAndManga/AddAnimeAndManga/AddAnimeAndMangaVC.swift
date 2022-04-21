@@ -24,7 +24,7 @@ class AddAnimeAndMangaVC: UIViewController {
     private let endDatePicker = UIDatePicker()
     private var formatter = DateFormatter()
     private var disposeBag = DisposeBag()
-    private let viewModel: AddAnimeAndMangaVM = .init()
+    private var viewModel: AddAnimeAndMangaVM?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,9 +42,11 @@ class AddAnimeAndMangaVC: UIViewController {
         print("AddAnimeAndMangaVC deinit")
     }
     
+    func initVC(type: PageType) {
+        self.viewModel = AddAnimeAndMangaVM.init(type: type)
+    }
+    
     private func setupUI() {
-        self.title = "Add anime"
-        
         startDatePicker.datePickerMode = .date
         startDatePicker.date = Date()
         endDatePicker.datePickerMode = .date
@@ -64,6 +66,11 @@ class AddAnimeAndMangaVC: UIViewController {
         .disposed(by: disposeBag)
         
         self.view.addGestureRecognizer(tap)
+        
+        viewModel?.titleSubject
+            .subscribe(onNext: { [weak self] title in
+                self?.title = title
+            }).disposed(by: disposeBag)
         
         startDatePicker.rx.date
             .map { [weak self] _ in
@@ -99,7 +106,7 @@ class AddAnimeAndMangaVC: UIViewController {
                 self?.saveBtnPressed()
             }).disposed(by: disposeBag)
         
-        viewModel.setAnimeMangaSubject
+        viewModel?.setAnimeMangaSubject
             .subscribe(onNext: { [weak self] _ in
                 self?.back()
             }).disposed(by: disposeBag)
@@ -113,9 +120,16 @@ class AddAnimeAndMangaVC: UIViewController {
     private func saveBtnPressed() {
         let randomId = Int.random(in: 10000000...99999999)
         
-        let newAnime = UiAnime(id: randomId, imageUrl: imgUrlText.text ?? "", title: titleText.text ?? "", rank: rankText.text ?? "", startDate: startDateText.text ?? "", endDate: endDateText.text ?? "", url: urlText.text ?? "", isFavorite: favoriteSwitch.isOn)
+        let newAnime = UiAnime(id: randomId,
+                               imageUrl: imgUrlText.text ?? "",
+                               title: titleText.text ?? "",
+                               rank: rankText.text ?? "",
+                               startDate: startDateText.text ?? "",
+                               endDate: endDateText.text ?? "",
+                               url: urlText.text ?? "",
+                               isFavorite: favoriteSwitch.isOn)
                 
-        viewModel.setAnimeManga(newAnime)
+        viewModel?.setAnimeManga(newAnime)
     }
     
     private func back() {

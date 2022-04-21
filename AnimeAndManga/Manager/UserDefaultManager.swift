@@ -8,23 +8,25 @@
 import Foundation
 
 enum UserDefaultKey: String {
-    case favoriteList
-    case customizeAnimeManga
+    case AnimeFavoriteList
+    case MangaFavoriteList
+    case AnimeCustomizeList
+    case MangaCustomizeList
 }
 
 class UserDefaultManager {
     static let shared = UserDefaultManager()
     
-    func getFavoriteList() -> [Int] {
-        return UserDefaults.standard.object(forKey: UserDefaultKey.favoriteList.rawValue) as? [Int] ?? []
+    func getAnimeFavoriteList() -> [Int] {
+        return UserDefaults.standard.object(forKey: UserDefaultKey.AnimeFavoriteList.rawValue) as? [Int] ?? []
     }
 
-    func setFavoriteList(_ list: [Int]) {
-        UserDefaults.standard.set(list, forKey: UserDefaultKey.favoriteList.rawValue)
+    func setAnimeFavoriteList(_ list: [Int]) {
+        UserDefaults.standard.set(list, forKey: UserDefaultKey.AnimeFavoriteList.rawValue)
     }
     
-    func getCustomizeAnimeManga() -> [UiAnime] {
-        if let data = UserDefaults.standard.value(forKey: UserDefaultKey.customizeAnimeManga.rawValue) as? Data {
+    func getAnimeCustomizeList() -> [UiAnime] {
+        if let data = UserDefaults.standard.value(forKey: UserDefaultKey.AnimeCustomizeList.rawValue) as? Data {
             let uiAnimeList = try? PropertyListDecoder().decode(Array<UiAnime>.self, from: data)
             return uiAnimeList ?? []
         }
@@ -33,11 +35,36 @@ class UserDefaultManager {
         }
     }
     
-    func setCustomizeAnimeManga(_ newAnime: UiAnime) {
-        var uiAnimeList = getCustomizeAnimeManga()
+    func setAnimeCustomizeList(_ newAnime: UiAnime) {
+        var uiAnimeList = getAnimeCustomizeList()
         uiAnimeList.append(newAnime)
         
-        UserDefaults.standard.set(try? PropertyListEncoder().encode(uiAnimeList), forKey: UserDefaultKey.customizeAnimeManga.rawValue)
+        UserDefaults.standard.set(try? PropertyListEncoder().encode(uiAnimeList), forKey: UserDefaultKey.AnimeCustomizeList.rawValue)
+    }
+    
+    func getMangaFavoriteList() -> [Int] {
+        return UserDefaults.standard.object(forKey: UserDefaultKey.MangaFavoriteList.rawValue) as? [Int] ?? []
+    }
+
+    func setMangaFavoriteList(_ list: [Int]) {
+        UserDefaults.standard.set(list, forKey: UserDefaultKey.MangaFavoriteList.rawValue)
+    }
+    
+    func getMangaCustomizeList() -> [UiAnime] {
+        if let data = UserDefaults.standard.value(forKey: UserDefaultKey.MangaCustomizeList.rawValue) as? Data {
+            let uiAnimeList = try? PropertyListDecoder().decode(Array<UiAnime>.self, from: data)
+            return uiAnimeList ?? []
+        }
+        else {
+            return []
+        }
+    }
+    
+    func setMangaCustomizeList(_ newAnime: UiAnime) {
+        var uiAnimeList = getMangaCustomizeList()
+        uiAnimeList.append(newAnime)
+        
+        UserDefaults.standard.set(try? PropertyListEncoder().encode(uiAnimeList), forKey: UserDefaultKey.MangaCustomizeList.rawValue)
     }
     
 }

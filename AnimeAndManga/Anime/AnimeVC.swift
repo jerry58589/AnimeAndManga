@@ -14,9 +14,9 @@ import SafariServices
 class AnimeVC: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
-    private let addBtn = UIBarButtonItem(title: "Add", style: .done, target: self, action: nil)
     
-    private let viewModel: AnimeVM = .init()
+    private let addBtn = UIBarButtonItem(title: "Add", style: .done, target: self, action: nil)
+    private var viewModel: AnimeVM?
     private var disposeBag = DisposeBag()
     private var lastPage = 1
 
@@ -46,12 +46,12 @@ class AnimeVC: UIViewController {
         setupUI()
         dataBinding()
         
-        viewModel.getNewPage(lastPage)
+        viewModel?.getNewPage(lastPage)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        viewModel.updateSectionModel()
+        viewModel?.updateSectionModel()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -59,8 +59,11 @@ class AnimeVC: UIViewController {
 //        self.disposeBag = DisposeBag()
     }
     
+    func initVC(type: PageType) {
+        self.viewModel = AnimeVM.init(type: type)
+    }
+    
     private func setupUI() {
-        self.title = "Anime"
         tableView.tableFooterView = UIView()
         tableView.delegate = self
         
@@ -68,11 +71,16 @@ class AnimeVC: UIViewController {
     }
 
     private func dataBinding() {
-        viewModel.tableViewDataSubject
+        viewModel?.titleSubject
+            .subscribe(onNext: { [weak self] title in
+                self?.title = title
+            }).disposed(by: disposeBag)
+        
+        viewModel?.tableViewDataSubject
             .bind(to: tableView.rx.items(dataSource: tableViewDataSource))
             .disposed(by: disposeBag)
         
-        tableView.rx.itemSelected
+        tableView?.rx.itemSelected
             .map { indexPath in
                 return (indexPath, self.tableViewDataSource[indexPath])
             }
@@ -98,12 +106,13 @@ class AnimeVC: UIViewController {
     }
     
     private func favoriteBtnPressed(anime: UiAnime) {
-        viewModel.setFavorite(anime)
+        viewModel?.setFavorite(anime)
     }
     
     private func addBtnPressed() {
         let storyboard: UIStoryboard = UIStoryboard.init(name: "Main", bundle: Bundle.main)
         let vc: AddAnimeAndMangaVC = storyboard.instantiateViewController(withIdentifier: "AddAnimeAndMangaVC") as! AddAnimeAndMangaVC
+        vc.initVC(type: viewModel?.getPageType() ?? .Anime)
         
         self.navigationController?.pushViewController(vc, animated: true)
     }
@@ -119,11 +128,11 @@ class AnimeVC: UIViewController {
 extension AnimeVC: UITableViewDelegate, UIScrollViewDelegate {
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
                 
-        guard scrollView.contentSize.height > self.tableView.frame.height, viewModel.getPageStatus() == .NotLoadingMore else { return }
+        guard scrollView.contentSize.height > self.tableView.frame.height, viewModel?.getPageStatus() == .NotLoadingMore else { return }
                         
         if scrollView.contentSize.height - (scrollView.frame.size.height + scrollView.contentOffset.y) <= -10 {
             lastPage += 1
-            viewModel.getNewPage(lastPage)
+            viewModel?.getNewPage(lastPage)
         }
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
