@@ -25,9 +25,9 @@ class UserDefaultManager {
         UserDefaults.standard.set(list, forKey: UserDefaultKey.AnimeFavoriteList.rawValue)
     }
     
-    func getAnimeCustomizeList() -> [UiAnime] {
+    func getAnimeCustomizeList() -> [UiAnimeManga] {
         if let data = UserDefaults.standard.value(forKey: UserDefaultKey.AnimeCustomizeList.rawValue) as? Data {
-            let uiAnimeList = try? PropertyListDecoder().decode(Array<UiAnime>.self, from: data)
+            let uiAnimeList = try? PropertyListDecoder().decode(Array<UiAnimeManga>.self, from: data)
             return uiAnimeList ?? []
         }
         else {
@@ -35,7 +35,7 @@ class UserDefaultManager {
         }
     }
     
-    func setAnimeCustomizeList(_ newAnime: UiAnime) {
+    func setAnimeCustomizeList(_ newAnime: UiAnimeManga) {
         var uiAnimeList = getAnimeCustomizeList()
         uiAnimeList.append(newAnime)
         
@@ -50,9 +50,9 @@ class UserDefaultManager {
         UserDefaults.standard.set(list, forKey: UserDefaultKey.MangaFavoriteList.rawValue)
     }
     
-    func getMangaCustomizeList() -> [UiAnime] {
+    func getMangaCustomizeList() -> [UiAnimeManga] {
         if let data = UserDefaults.standard.value(forKey: UserDefaultKey.MangaCustomizeList.rawValue) as? Data {
-            let uiAnimeList = try? PropertyListDecoder().decode(Array<UiAnime>.self, from: data)
+            let uiAnimeList = try? PropertyListDecoder().decode(Array<UiAnimeManga>.self, from: data)
             return uiAnimeList ?? []
         }
         else {
@@ -60,7 +60,7 @@ class UserDefaultManager {
         }
     }
     
-    func setMangaCustomizeList(_ newAnime: UiAnime) {
+    func setMangaCustomizeList(_ newAnime: UiAnimeManga) {
         var uiAnimeList = getMangaCustomizeList()
         uiAnimeList.append(newAnime)
         

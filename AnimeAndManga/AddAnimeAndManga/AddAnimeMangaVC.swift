@@ -1,5 +1,5 @@
 //
-//  AddAnimeAndMangaVC.swift
+//  AddAnimeMangaVC.swift
 //  AnimeAndManga
 //
 //  Created by JerryLo on 2022/4/18.
@@ -9,7 +9,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class AddAnimeAndMangaVC: UIViewController {
+class AddAnimeMangaVC: UIViewController {
 
     @IBOutlet weak var rankText: UITextField!
     @IBOutlet weak var titleText: UITextField!
@@ -24,7 +24,7 @@ class AddAnimeAndMangaVC: UIViewController {
     private let endDatePicker = UIDatePicker()
     private var formatter = DateFormatter()
     private var disposeBag = DisposeBag()
-    private var viewModel: AddAnimeAndMangaVM?
+    private var viewModel: AddAnimeMangaVM?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,11 +39,11 @@ class AddAnimeAndMangaVC: UIViewController {
     }
     
     deinit {
-        print("AddAnimeAndMangaVC deinit")
+        print("AddAnimeMangaVC deinit")
     }
     
     func initVC(type: PageType) {
-        self.viewModel = AddAnimeAndMangaVM.init(type: type)
+        self.viewModel = AddAnimeMangaVM.init(type: type)
     }
     
     private func setupUI() {
@@ -120,7 +120,7 @@ class AddAnimeAndMangaVC: UIViewController {
     private func saveBtnPressed() {
         let randomId = Int.random(in: 10000000...99999999)
         
-        let newAnime = UiAnime(id: randomId,
+        let newAnimeManga = UiAnimeManga(id: randomId,
                                imageUrl: imgUrlText.text ?? "",
                                title: titleText.text ?? "",
                                rank: rankText.text ?? "",
@@ -129,7 +129,7 @@ class AddAnimeAndMangaVC: UIViewController {
                                url: urlText.text ?? "",
                                isFavorite: favoriteSwitch.isOn)
                 
-        viewModel?.setAnimeManga(newAnime)
+        viewModel?.setAnimeManga(newAnimeManga)
     }
     
     private func back() {

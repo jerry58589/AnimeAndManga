@@ -1,5 +1,5 @@
 //
-//  AnimeVC.swift
+//  AnimeMangaVC.swift
 //  AnimeAndManga
 //
 //  Created by JerryLo on 2022/4/16.
@@ -11,16 +11,16 @@ import RxCocoa
 import RxDataSources
 import SafariServices
 
-class AnimeVC: UIViewController {
+class AnimeMangaVC: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     
     private let addBtn = UIBarButtonItem(title: "Add", style: .done, target: self, action: nil)
-    private var viewModel: AnimeVM?
+    private var viewModel: AnimeMangaVM?
     private var disposeBag = DisposeBag()
     private var lastPage = 1
 
-    private lazy var tableViewDataSource = RxTableViewSectionedReloadDataSource <SectionModel<String, UiAnime>>(
+    private lazy var tableViewDataSource = RxTableViewSectionedReloadDataSource <SectionModel<String, UiAnimeManga>>(
         configureCell: { [weak self] (dataSource, tableView, indexPath, item) in
             
             if dataSource.sectionModels[indexPath.section].model == CellType.Loading.rawValue {
@@ -30,11 +30,11 @@ class AnimeVC: UIViewController {
                 return cell
             }
             else {
-                let cell = tableView.dequeueReusableCell(withIdentifier: "AnimeAndMangaCell", for: indexPath) as! AnimeAndMangaCell
+                let cell = tableView.dequeueReusableCell(withIdentifier: "AnimeMangaCell", for: indexPath) as! AnimeMangaCell
                 cell.selectionStyle = .none
-                cell.updateUI(anime: item)
+                cell.updateUI(item)
                 cell.favoriteBtn.rx.tap.subscribe(onNext: { [weak self] in
-                    self?.favoriteBtnPressed(anime: item)
+                    self?.favoriteBtnPressed(animeManga: item)
                 }).disposed(by: cell.disposeBag)
                 return cell
             }
@@ -54,13 +54,8 @@ class AnimeVC: UIViewController {
         viewModel?.updateSectionModel()
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-//        self.disposeBag = DisposeBag()
-    }
-    
     func initVC(type: PageType) {
-        self.viewModel = AnimeVM.init(type: type)
+        self.viewModel = AnimeMangaVM.init(type: type)
     }
     
     private func setupUI() {
@@ -105,13 +100,13 @@ class AnimeVC: UIViewController {
 
     }
     
-    private func favoriteBtnPressed(anime: UiAnime) {
-        viewModel?.setFavorite(anime)
+    private func favoriteBtnPressed(animeManga: UiAnimeManga) {
+        viewModel?.setFavorite(animeManga)
     }
     
     private func addBtnPressed() {
         let storyboard: UIStoryboard = UIStoryboard.init(name: "Main", bundle: Bundle.main)
-        let vc: AddAnimeAndMangaVC = storyboard.instantiateViewController(withIdentifier: "AddAnimeAndMangaVC") as! AddAnimeAndMangaVC
+        let vc: AddAnimeMangaVC = storyboard.instantiateViewController(withIdentifier: "AddAnimeMangaVC") as! AddAnimeMangaVC
         vc.initVC(type: viewModel?.getPageType() ?? .Anime)
         
         self.navigationController?.pushViewController(vc, animated: true)
@@ -125,7 +120,7 @@ class AnimeVC: UIViewController {
     }
 }
 
-extension AnimeVC: UITableViewDelegate, UIScrollViewDelegate {
+extension AnimeMangaVC: UITableViewDelegate, UIScrollViewDelegate {
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
                 
         guard scrollView.contentSize.height > self.tableView.frame.height, viewModel?.getPageStatus() == .NotLoadingMore else { return }

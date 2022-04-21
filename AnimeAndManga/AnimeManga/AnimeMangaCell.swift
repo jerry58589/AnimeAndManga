@@ -1,5 +1,5 @@
 //
-//  AnimeAndMangaCell.swift
+//  AnimeMangaCell.swift
 //  AnimeAndManga
 //
 //  Created by JerryLo on 2022/4/16.
@@ -8,7 +8,7 @@
 import UIKit
 import RxSwift
 
-class AnimeAndMangaCell: UITableViewCell {
+class AnimeMangaCell: UITableViewCell {
 
     @IBOutlet weak var rank: UILabel!
     @IBOutlet weak var title: UILabel!
@@ -29,13 +29,13 @@ class AnimeAndMangaCell: UITableViewCell {
         disposeBag = DisposeBag()
     }
     
-    func updateUI(anime: UiAnime) {
-        rank.text = anime.rank
-        title.text = anime.title
-        startDate.text = anime.startDate
-        endDate.text = anime.endDate
+    func updateUI(_ animeManga: UiAnimeManga) {
+        rank.text = animeManga.rank
+        title.text = animeManga.title
+        startDate.text = animeManga.startDate
+        endDate.text = animeManga.endDate
         
-        if anime.isFavorite {
+        if animeManga.isFavorite {
             let image = UIImage(named: "star")?.withRenderingMode(.alwaysOriginal)
             favoriteBtn.setImage(image, for: .normal)
         }
@@ -45,7 +45,7 @@ class AnimeAndMangaCell: UITableViewCell {
         }
         
         DispatchQueue.global().async {
-            if let url = URL(string: anime.imageUrl), let data = try? Data(contentsOf: url) {
+            if let url = URL(string: animeManga.imageUrl), let data = try? Data(contentsOf: url) {
                 DispatchQueue.main.async {
                     self.img.image = UIImage(data: data)
                 }

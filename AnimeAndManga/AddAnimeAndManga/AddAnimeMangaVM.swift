@@ -1,5 +1,5 @@
 //
-//  AddAnimeAndMangaVM.swift
+//  AddAnimeMangaVM.swift
 //  AnimeAndManga
 //
 //  Created by JerryLo on 2022/4/20.
@@ -8,7 +8,7 @@
 import Foundation
 import RxSwift
 
-class AddAnimeAndMangaVM {
+class AddAnimeMangaVM {
     private let type: PageType
     let setAnimeMangaSubject = PublishSubject<Void>()
     let titleSubject = ReplaySubject<String>.create(bufferSize: 1)
@@ -24,7 +24,7 @@ class AddAnimeAndMangaVM {
         }
     }
     
-    func setAnimeManga(_ newAnime: UiAnime) {
+    func setAnimeManga(_ newAnime: UiAnimeManga) {
         if type == .Anime {
             UserDefaultManager.shared.setAnimeCustomizeList(newAnime)
         }
@@ -41,7 +41,7 @@ class AddAnimeAndMangaVM {
         setAnimeMangaSubject.onNext(())
     }
     
-    func getAnimeManga() -> [UiAnime] {
+    func getAnimeManga() -> [UiAnimeManga] {
         if type == .Anime {
             return UserDefaultManager.shared.getAnimeCustomizeList()
         }

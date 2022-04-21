@@ -12,7 +12,7 @@
         <!--Anime-->
         <scene sceneID="xwI-kA-OJj">
             <objects>
-                <viewController storyboardIdentifier="AnimeVC" id="C12-aJ-FYb" customClass="AnimeVC" customModule="AnimeAndManga" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="AnimeMangaVC" id="C12-aJ-FYb" customClass="AnimeMangaVC" customModule="AnimeAndManga" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="FkK-Mo-OWS">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -21,7 +21,7 @@
                                 <rect key="frame" x="0.0" y="44" width="414" height="818"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="AnimeAndMangaCell" rowHeight="85" id="UBf-Fx-wIE" customClass="AnimeAndMangaCell" customModule="AnimeAndManga" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="AnimeMangaCell" rowHeight="85" id="UBf-Fx-wIE" customClass="AnimeMangaCell" customModule="AnimeAndManga" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="44.5" width="414" height="85"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="UBf-Fx-wIE" id="ptx-GO-oJ0">
@@ -171,10 +171,10 @@
             </objects>
             <point key="canvasLocation" x="2022" y="-277"/>
         </scene>
-        <!--Add Anime And MangaVC-->
+        <!--Add Anime MangaVC-->
         <scene sceneID="dcQ-ed-be8">
             <objects>
-                <viewController storyboardIdentifier="AddAnimeAndMangaVC" id="5ww-1X-9ZR" customClass="AddAnimeAndMangaVC" customModule="AnimeAndManga" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="AddAnimeMangaVC" id="5ww-1X-9ZR" customClass="AddAnimeMangaVC" customModule="AnimeAndManga" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="6qa-xJ-peV">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

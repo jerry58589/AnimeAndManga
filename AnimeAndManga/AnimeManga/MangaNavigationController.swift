@@ -17,7 +17,7 @@ class MangaNavigationController: UINavigationController {
     
     private func setupUI() {
         let storyboard: UIStoryboard = UIStoryboard.init(name: "Main", bundle: Bundle.main)
-        let vc: AnimeVC = storyboard.instantiateViewController(withIdentifier: "AnimeVC") as! AnimeVC
+        let vc: AnimeMangaVC = storyboard.instantiateViewController(withIdentifier: "AnimeMangaVC") as! AnimeMangaVC
         vc.initVC(type: .Manga)
         
         self.setViewControllers([vc], animated: false)
