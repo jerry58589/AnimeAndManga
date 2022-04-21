@@ -22,26 +22,12 @@ class APIManager {
         }
     }
     
-    func getAmaga(page: String) -> Single<String> {
+    func getManga(page: String) -> Single<MangaRespModel> {
         var params = [String: AnyObject]()
         params["page"] = page as AnyObject
         
-//        return task(apiType: .OPENAPI_GET_ANIME, params: params).flatMap { (data) -> Single<AnimeRespModel> in
-//            return APIManager.handleDecode(AnimeRespModel.self, from: data)
-//        }
-        
-        
-        return task(apiType: .OPENAPI_GET_ANIME, params: params).flatMap { (data) -> Single<String> in
-
-            let JSONString = String(data: data!, encoding: String.Encoding.utf8)
-
-            return Single.create { single in
-
-                single(.success(JSONString ?? ""))
-
-                return Disposables.create()
-            }
-
+        return task(apiType: .OPENAPI_GET_MANGA, params: params).flatMap { (data) -> Single<MangaRespModel> in
+            return APIManager.handleDecode(MangaRespModel.self, from: data)
         }
     }
     
