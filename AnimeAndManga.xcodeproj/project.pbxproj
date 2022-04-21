@@ -138,13 +138,13 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		C429F67E280FA8F0007099B1 /* AddAnimeAndManga */ = {
+		C429F67E280FA8F0007099B1 /* AddAnimeManga */ = {
 			isa = PBXGroup;
 			children = (
 				C429F67A280D1A86007099B1 /* AddAnimeMangaVC.swift */,
 				C429F67F280FA932007099B1 /* AddAnimeMangaVM.swift */,
 			);
-			path = AddAnimeAndManga;
+			path = AddAnimeManga;
 			sourceTree = "<group>";
 		};
 		C4E90FAB280AA0760069F2FB /* AnimeManga */ = {
@@ -209,7 +209,7 @@
 				C4E90FAF280AB20D0069F2FB /* Manager */,
 				C4E90FAE280AB2020069F2FB /* ResponseModel */,
 				C4E90FAB280AA0760069F2FB /* AnimeManga */,
-				C429F67E280FA8F0007099B1 /* AddAnimeAndManga */,
+				C429F67E280FA8F0007099B1 /* AddAnimeManga */,
 				C4F142ED280A9838008797A8 /* Main.storyboard */,
 				C4F142F0280A9840008797A8 /* Assets.xcassets */,
 				C4F142F2280A9840008797A8 /* LaunchScreen.storyboard */,
