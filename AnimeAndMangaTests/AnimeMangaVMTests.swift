@@ -8,7 +8,7 @@
 import XCTest
 import RxSwift
 import RxDataSources
-//import RxTest
+import RxTest
 @testable import AnimeAndManga
 
 class AnimeMangaVMTests: XCTestCase {
@@ -109,33 +109,30 @@ class AnimeMangaVMTests: XCTestCase {
         XCTAssertEqual(sectionModel.count, 1)
     }
 
-//    func test_updateSectionModel() {
-//        let scheduler = TestScheduler(initialClock: 0, resolution: 1)
-//        let disposeBag = DisposeBag()
-//        var fakeUiAnimeMangaList = [UiAnimeManga]()
-//
-//        for rank in 0...10 {
-//            fakeUiAnimeMangaList.append(.init(id: 0, imageUrl: "", title: "", rank: String(rank), startDate: "", endDate: "", url: "", isFavorite: false))
-//        }
-//
-//        scheduler.scheduleAt(10) {
-//            self.vm.exposeSetapiAnimeMangaList(fakeUiAnimeMangaList)
-//            self.vm.updateSectionModel()
-//        }
-//
-//        let observer = scheduler.record(vm.tableViewDataSubject.asObservable(), disposeBag: disposeBag)
-//        scheduler.start()
-//
-//        let results = observer.events
-//            .compactMap{ $0.value.element }.first?
-//            .compactMap{ $0.items }.first?
-//            .compactMap{ Int($0.rank)}
-//
-//        XCTAssertEqual(results, results?.sorted(by: {$0 < $1}))
-//    }
+    func test_updateSectionModel() {
+        let scheduler = TestScheduler(initialClock: 0, resolution: 1)
+        let disposeBag = DisposeBag()
+        var fakeUiAnimeMangaList = [UiAnimeManga]()
 
+        for rank in 0...10 {
+            fakeUiAnimeMangaList.append(.init(id: 0, imageUrl: "", title: "", rank: String(rank), startDate: "", endDate: "", url: "", isFavorite: false))
+        }
+
+        scheduler.scheduleAt(10) {
+            self.vm.exposeSetapiAnimeMangaList(fakeUiAnimeMangaList)
+            self.vm.updateSectionModel()
+        }
+
+        let observer = scheduler.record(vm.tableViewDataSubject.asObservable(), disposeBag: disposeBag)
+        scheduler.start()
+
+        let results = observer.events
+            .compactMap{ $0.value.element }.first?
+            .compactMap{ $0.items }.first?
+            .compactMap{ Int($0.rank)}
+
+        XCTAssertEqual(results, results?.sorted(by: {$0 < $1}))
+    }
 
 }
-
-
 

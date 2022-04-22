@@ -18,6 +18,7 @@
 		C429F68F2810FF44007099B1 /* AnimeNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C429F68E2810FF44007099B1 /* AnimeNavigationController.swift */; };
 		C429F6912811006D007099B1 /* MangaNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C429F6902811006C007099B1 /* MangaNavigationController.swift */; };
 		C42D5C212812401800CD3A96 /* AnimeMangaVMTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C42D5C202812401700CD3A96 /* AnimeMangaVMTests.swift */; };
+		C42D5C25281244E400CD3A96 /* TestScheduler+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C42D5C24281244E400CD3A96 /* TestScheduler+Extension.swift */; };
 		C4E90FA7280A9D500069F2FB /* AnimeMangaVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4E90FA6280A9D500069F2FB /* AnimeMangaVC.swift */; };
 		C4E90FAD280AA0CB0069F2FB /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4E90FAC280AA0CB0069F2FB /* APIManager.swift */; };
 		C4E90FB2280AB48C0069F2FB /* AnimeRespModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4E90FB1280AB48C0069F2FB /* AnimeRespModel.swift */; };
@@ -29,7 +30,7 @@
 		C4F142EF280A9838008797A8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C4F142ED280A9838008797A8 /* Main.storyboard */; };
 		C4F142F1280A9840008797A8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C4F142F0280A9840008797A8 /* Assets.xcassets */; };
 		C4F142F4280A9840008797A8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C4F142F2280A9840008797A8 /* LaunchScreen.storyboard */; };
-		C4F142FF280A9841008797A8 /* AnimeAndMangaTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F142FE280A9841008797A8 /* AnimeAndMangaTests.swift */; };
+		C4F142FF280A9841008797A8 /* APIManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F142FE280A9841008797A8 /* APIManagerTests.swift */; };
 		C4F14309280A9841008797A8 /* AnimeAndMangaUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F14308280A9841008797A8 /* AnimeAndMangaUITests.swift */; };
 		C4F1430B280A9841008797A8 /* AnimeAndMangaUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F1430A280A9841008797A8 /* AnimeAndMangaUITestsLaunchTests.swift */; };
 /* End PBXBuildFile section */
@@ -68,6 +69,7 @@
 		C429F68E2810FF44007099B1 /* AnimeNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeNavigationController.swift; sourceTree = "<group>"; };
 		C429F6902811006C007099B1 /* MangaNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MangaNavigationController.swift; sourceTree = "<group>"; };
 		C42D5C202812401700CD3A96 /* AnimeMangaVMTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeMangaVMTests.swift; sourceTree = "<group>"; };
+		C42D5C24281244E400CD3A96 /* TestScheduler+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TestScheduler+Extension.swift"; sourceTree = "<group>"; };
 		C4E90FA6280A9D500069F2FB /* AnimeMangaVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeMangaVC.swift; sourceTree = "<group>"; };
 		C4E90FAC280AA0CB0069F2FB /* APIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
 		C4E90FB1280AB48C0069F2FB /* AnimeRespModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeRespModel.swift; sourceTree = "<group>"; };
@@ -82,7 +84,7 @@
 		C4F142F3280A9840008797A8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C4F142F5280A9840008797A8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C4F142FA280A9841008797A8 /* AnimeAndMangaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AnimeAndMangaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		C4F142FE280A9841008797A8 /* AnimeAndMangaTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeAndMangaTests.swift; sourceTree = "<group>"; };
+		C4F142FE280A9841008797A8 /* APIManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIManagerTests.swift; sourceTree = "<group>"; };
 		C4F14304280A9841008797A8 /* AnimeAndMangaUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AnimeAndMangaUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C4F14308280A9841008797A8 /* AnimeAndMangaUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeAndMangaUITests.swift; sourceTree = "<group>"; };
 		C4F1430A280A9841008797A8 /* AnimeAndMangaUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeAndMangaUITestsLaunchTests.swift; sourceTree = "<group>"; };
@@ -149,6 +151,14 @@
 			path = AddAnimeManga;
 			sourceTree = "<group>";
 		};
+		C42D5C262812451200CD3A96 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				C42D5C24281244E400CD3A96 /* TestScheduler+Extension.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
 		C4E90FAB280AA0760069F2FB /* AnimeManga */ = {
 			isa = PBXGroup;
 			children = (
@@ -208,6 +218,7 @@
 			children = (
 				C4F142E7280A9838008797A8 /* AppDelegate.swift */,
 				C4F142E9280A9838008797A8 /* SceneDelegate.swift */,
+				C42D5C262812451200CD3A96 /* Extension */,
 				C4E90FAF280AB20D0069F2FB /* Manager */,
 				C4E90FAE280AB2020069F2FB /* ResponseModel */,
 				C4E90FAB280AA0760069F2FB /* AnimeManga */,
@@ -223,7 +234,7 @@
 		C4F142FD280A9841008797A8 /* AnimeAndMangaTests */ = {
 			isa = PBXGroup;
 			children = (
-				C4F142FE280A9841008797A8 /* AnimeAndMangaTests.swift */,
+				C4F142FE280A9841008797A8 /* APIManagerTests.swift */,
 				C42D5C202812401700CD3A96 /* AnimeMangaVMTests.swift */,
 			);
 			path = AnimeAndMangaTests;
@@ -518,7 +529,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				C42D5C212812401800CD3A96 /* AnimeMangaVMTests.swift in Sources */,
-				C4F142FF280A9841008797A8 /* AnimeAndMangaTests.swift in Sources */,
+				C4F142FF280A9841008797A8 /* APIManagerTests.swift in Sources */,
+				C42D5C25281244E400CD3A96 /* TestScheduler+Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
