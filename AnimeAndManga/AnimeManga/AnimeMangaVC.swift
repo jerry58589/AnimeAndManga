@@ -16,9 +16,8 @@ class AnimeMangaVC: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     
     private let addBtn = UIBarButtonItem(title: "Add", style: .done, target: self, action: nil)
-    private var viewModel: AnimeMangaVM?
-    private var disposeBag = DisposeBag()
-    private var lastPage = 1
+    private var viewModel: AnimeMangaVM!
+    private let disposeBag = DisposeBag()
 
     private lazy var tableViewDataSource = RxTableViewSectionedReloadDataSource <SectionModel<String, UiAnimeManga>>(
         configureCell: { [weak self] (dataSource, tableView, indexPath, item) in
@@ -46,12 +45,12 @@ class AnimeMangaVC: UIViewController {
         setupUI()
         dataBinding()
         
-        viewModel?.getNewPage(lastPage)
+        viewModel.getNewPage()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        viewModel?.updateSectionModel()
+        viewModel.updateSectionModel()
     }
     
     func initVC(type: PageType) {
@@ -66,12 +65,12 @@ class AnimeMangaVC: UIViewController {
     }
 
     private func dataBinding() {
-        viewModel?.titleSubject
+        viewModel.titleSubject
             .subscribe(onNext: { [weak self] (title) in
                 self?.title = title
             }).disposed(by: disposeBag)
         
-        viewModel?.tableViewDataSubject
+        viewModel.tableViewDataSubject
             .bind(to: tableView.rx.items(dataSource: tableViewDataSource))
             .disposed(by: disposeBag)
         
@@ -101,13 +100,13 @@ class AnimeMangaVC: UIViewController {
     }
     
     private func favoriteBtnPressed(animeManga: UiAnimeManga) {
-        viewModel?.setFavorite(animeManga)
+        viewModel.setFavorite(animeManga)
     }
     
     private func addBtnPressed() {
         let storyboard: UIStoryboard = UIStoryboard.init(name: "Main", bundle: Bundle.main)
         let vc: AddAnimeMangaVC = storyboard.instantiateViewController(withIdentifier: "AddAnimeMangaVC") as! AddAnimeMangaVC
-        vc.initVC(type: viewModel?.getPageType() ?? .Anime)
+        vc.initVC(type: viewModel.getPageType())
         
         self.navigationController?.pushViewController(vc, animated: true)
     }
@@ -123,11 +122,10 @@ class AnimeMangaVC: UIViewController {
 extension AnimeMangaVC: UITableViewDelegate, UIScrollViewDelegate {
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
                 
-        guard scrollView.contentSize.height > self.tableView.frame.height, viewModel?.getPageStatus() == .NotLoadingMore else { return }
+        guard scrollView.contentSize.height > self.tableView.frame.height, viewModel.getPageStatus() == .NotLoadingMore else { return }
                         
         if scrollView.contentSize.height - (scrollView.frame.size.height + scrollView.contentOffset.y) <= -10 {
-            lastPage += 1
-            viewModel?.getNewPage(lastPage)
+            viewModel.getNewPage()
         }
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

@@ -17,7 +17,7 @@ class AnimeMangaCell: UITableViewCell {
     @IBOutlet weak var img: UIImageView!
     @IBOutlet weak var favoriteBtn: UIButton!
     
-    var disposeBag = DisposeBag()
+    private(set) var disposeBag = DisposeBag()
     
     override func awakeFromNib() {
         super.awakeFromNib()

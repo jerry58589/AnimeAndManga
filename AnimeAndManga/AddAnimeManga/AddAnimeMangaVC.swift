@@ -22,7 +22,7 @@ class AddAnimeMangaVC: UIViewController {
     
     private let startDatePicker = UIDatePicker()
     private let endDatePicker = UIDatePicker()
-    private var formatter = DateFormatter()
+    private let formatter = DateFormatter()
     private var disposeBag = DisposeBag()
     private var viewModel: AddAnimeMangaVM?
 

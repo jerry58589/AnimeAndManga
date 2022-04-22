@@ -29,6 +29,7 @@ class AnimeMangaVM {
     private var apiAnimeMangaList = [UiAnimeManga]()
     private var pageStatus: PageStatus = .NotLoadingMore
     private let type: PageType
+    private var page: Int = 1
     let tableViewDataSubject = PublishSubject<[SectionModel<String, UiAnimeManga>]>()
     let titleSubject = ReplaySubject<String>.create(bufferSize: 1)
 
@@ -43,7 +44,7 @@ class AnimeMangaVM {
         }
     }
     
-    func getNewPage(_ page: Int) {
+    func getNewPage() {
         pageStatus = .LoadingMore
         updateSectionModel()
         
@@ -72,8 +73,9 @@ class AnimeMangaVM {
                 print(err)
                 self?.tableViewDataSubject.onError(err)
             }).disposed(by: disposeBag)
-
         }
+        
+        page += 1
     }
     
     func setFavorite(_ animeManga: UiAnimeManga) {
@@ -115,7 +117,7 @@ class AnimeMangaVM {
                          title: data.title,
                          rank: String(data.rank),
                          startDate: data.aired.from.components(separatedBy: "T").first ?? data.aired.from,
-                         endDate: (data.aired.to ?? "nowT").components(separatedBy: "T").first ?? "now",
+                         endDate: (data.aired.to ?? "now").components(separatedBy: "T").first ?? "now",
                          url: data.url,
                          isFavorite: false)
         }
