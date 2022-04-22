@@ -33,10 +33,13 @@ class APIManager {
     
     public enum DecodeError: Error, LocalizedError {
         case dataNull
+        case fk
         public var errorDescription: String? {
             switch self {
             case .dataNull:
                 return "Data Null"
+            case .fk:
+                return "fkkk"
             }
         }
     }
@@ -47,7 +50,7 @@ class APIManager {
                 let toResponse = try JSONDecoder().decode(T.self ,from: strongData)
                 return Single<T>.just(toResponse)
             } catch {
-                return Single.error(error)
+                return Single.error(DecodeError.fk)
             }
         } else {
             return Single.error(DecodeError.dataNull)
@@ -64,7 +67,7 @@ class APIManager {
                     }
                     singleEvent(.success(response.data))
                 case .failure(let error):
-                    singleEvent(.failure(error))
+                    singleEvent(.failure(DecodeError.fk))
                 }
             })
             return Disposables.create()

@@ -44,8 +44,6 @@ class AnimeMangaVC: UIViewController {
         
         setupUI()
         dataBinding()
-        
-        viewModel.getNewPage()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -93,6 +91,14 @@ class AnimeMangaVC: UIViewController {
             })
             .disposed(by: disposeBag)
         
+        tableView.rx.contentOffset
+            .subscribe(onNext: { [weak self] contentOffset in
+                if contentOffset.y >= ((self?.tableView.contentSize.height ?? 0) - (self?.tableView.frame.size.height ?? 0)) && self?.viewModel.getPageStatus() == .NotLoadingMore {
+                    self?.viewModel.getNewPage()
+                }
+            })
+            .disposed(by: disposeBag)
+        
         addBtn.rx.tap.subscribe(onNext: { [weak self] _ in
             self?.addBtnPressed()
         }).disposed(by: disposeBag)
@@ -119,15 +125,7 @@ class AnimeMangaVC: UIViewController {
     }
 }
 
-extension AnimeMangaVC: UITableViewDelegate, UIScrollViewDelegate {
-    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-                
-        guard scrollView.contentSize.height > self.tableView.frame.height, viewModel.getPageStatus() == .NotLoadingMore else { return }
-                        
-        if scrollView.contentSize.height - (scrollView.frame.size.height + scrollView.contentOffset.y) <= -10 {
-            viewModel.getNewPage()
-        }
-    }
+extension AnimeMangaVC: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 85
     }
