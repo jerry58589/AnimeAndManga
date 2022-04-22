@@ -17,6 +17,7 @@
 		C429F68B2810F3BA007099B1 /* MangaRespModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C429F68A2810F3B9007099B1 /* MangaRespModel.swift */; };
 		C429F68F2810FF44007099B1 /* AnimeNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C429F68E2810FF44007099B1 /* AnimeNavigationController.swift */; };
 		C429F6912811006D007099B1 /* MangaNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C429F6902811006C007099B1 /* MangaNavigationController.swift */; };
+		C42D5C212812401800CD3A96 /* AnimeMangaVMTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C42D5C202812401700CD3A96 /* AnimeMangaVMTests.swift */; };
 		C4E90FA7280A9D500069F2FB /* AnimeMangaVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4E90FA6280A9D500069F2FB /* AnimeMangaVC.swift */; };
 		C4E90FAD280AA0CB0069F2FB /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4E90FAC280AA0CB0069F2FB /* APIManager.swift */; };
 		C4E90FB2280AB48C0069F2FB /* AnimeRespModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4E90FB1280AB48C0069F2FB /* AnimeRespModel.swift */; };
@@ -66,6 +67,7 @@
 		C429F68A2810F3B9007099B1 /* MangaRespModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MangaRespModel.swift; sourceTree = "<group>"; };
 		C429F68E2810FF44007099B1 /* AnimeNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeNavigationController.swift; sourceTree = "<group>"; };
 		C429F6902811006C007099B1 /* MangaNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MangaNavigationController.swift; sourceTree = "<group>"; };
+		C42D5C202812401700CD3A96 /* AnimeMangaVMTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeMangaVMTests.swift; sourceTree = "<group>"; };
 		C4E90FA6280A9D500069F2FB /* AnimeMangaVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeMangaVC.swift; sourceTree = "<group>"; };
 		C4E90FAC280AA0CB0069F2FB /* APIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
 		C4E90FB1280AB48C0069F2FB /* AnimeRespModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeRespModel.swift; sourceTree = "<group>"; };
@@ -222,6 +224,7 @@
 			isa = PBXGroup;
 			children = (
 				C4F142FE280A9841008797A8 /* AnimeAndMangaTests.swift */,
+				C42D5C202812401700CD3A96 /* AnimeMangaVMTests.swift */,
 			);
 			path = AnimeAndMangaTests;
 			sourceTree = "<group>";
@@ -496,6 +499,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C42D5C212812401800CD3A96 /* AnimeMangaVMTests.swift in Sources */,
 				C4F142FF280A9841008797A8 /* AnimeAndMangaTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -728,7 +732,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 3PH3DDJ929;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -754,7 +758,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 3PH3DDJ929;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

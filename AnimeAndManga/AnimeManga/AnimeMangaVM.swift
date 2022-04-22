@@ -199,3 +199,32 @@ class AnimeMangaVM {
         }
     }
 }
+
+#if DEBUG
+extension AnimeMangaVM {
+    public func exposeGenAnimeUiList(_ viewObject: AnimeRespModel) -> [UiAnimeManga] {
+        return self.genAnimeUiList(viewObject)
+    }
+    
+    public func exposeGenMangaUiList(_ viewObject: MangaRespModel) -> [UiAnimeManga] {
+        return self.genMangaUiList(viewObject)
+    }
+    
+    public func exposeGenFavoriteUiAnimeList(_ animeMangaList: [UiAnimeManga]) -> [UiAnimeManga] {
+        return self.genFavoriteUiAnimeList(animeMangaList)
+    }
+    
+    public func exposeGenSectionModel(_ viewObject: [UiAnimeManga]) -> [SectionModel<String, UiAnimeManga>] {
+        return genSectionModel(viewObject)
+    }
+    
+    public func exposeSetPageStatus(_ status: PageStatus) {
+        self.pageStatus = status
+    }
+    
+    public func exposeSetapiAnimeMangaList(_ list: [UiAnimeManga]) {
+        self.apiAnimeMangaList = list
+    }
+    
+}
+#endif
