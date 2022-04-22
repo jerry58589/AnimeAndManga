@@ -80,7 +80,7 @@ class AnimeMangaVC: UIViewController {
             }
             .subscribe(onNext: { [weak self] (indexPath, animeManga) in
                 
-                if let url = URL(string: animeManga?.url ?? "") {
+                if let url = URL(string: animeManga?.url ?? ""), UIApplication.shared.canOpenURL(url) {
                     let config = SFSafariViewController.Configuration()
                     config.entersReaderIfAvailable = true
                     
