@@ -49,7 +49,7 @@ class AnimeMangaVM {
         
         if type == .Anime {
             APIManager.shared.getAnime(page: String(page)).map { [weak self] (viewObject) -> [UiAnimeManga] in
-                return self?.genAnimeUiAnimeList(viewObject) ?? []
+                return self?.genAnimeUiList(viewObject) ?? []
             }
             .subscribe(onSuccess: { [weak self] (newUiAnimeList) in
                 self?.pageStatus = .NotLoadingMore
@@ -62,7 +62,7 @@ class AnimeMangaVM {
         }
         else {
             APIManager.shared.getManga(page: String(page)).map { [weak self] (viewObject) -> [UiAnimeManga] in
-                return self?.genMangaUiAnimeList(viewObject) ?? []
+                return self?.genMangaUiList(viewObject) ?? []
             }
             .subscribe(onSuccess: { [weak self] (newUiAnimeList) in
                 self?.pageStatus = .NotLoadingMore
@@ -108,7 +108,7 @@ class AnimeMangaVM {
         return self.type
     }
     
-    private func genAnimeUiAnimeList(_ viewObject: AnimeRespModel) -> [UiAnimeManga] {
+    private func genAnimeUiList(_ viewObject: AnimeRespModel) -> [UiAnimeManga] {
         return viewObject.data.map { data -> UiAnimeManga in
             return .init(id: data.mal_id,
                          imageUrl: data.images.jpg.image_url ?? "noImage",
@@ -121,7 +121,7 @@ class AnimeMangaVM {
         }
     }
     
-    private func genMangaUiAnimeList(_ viewObject: MangaRespModel) -> [UiAnimeManga] {
+    private func genMangaUiList(_ viewObject: MangaRespModel) -> [UiAnimeManga] {
         return viewObject.data.map { data -> UiAnimeManga in
             return .init(id: data.mal_id,
                          imageUrl: data.images.jpg.image_url ?? "noImage",
@@ -133,7 +133,6 @@ class AnimeMangaVM {
                          isFavorite: false)
         }
     }
-
 
     private func genFavoriteUiAnimeList(_ animeMangaList: [UiAnimeManga]) -> [UiAnimeManga] {
         let favoriteList = getFavoriteList()
