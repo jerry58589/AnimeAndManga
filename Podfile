@@ -16,6 +16,7 @@ target 'AnimeAndManga' do
   target 'AnimeAndMangaTests' do
     inherit! :search_paths
     # Pods for testing
+    pod 'RxTest'
   end
 
   target 'AnimeAndMangaUITests' do
