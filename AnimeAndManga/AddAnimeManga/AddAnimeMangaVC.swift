@@ -23,8 +23,8 @@ class AddAnimeMangaVC: UIViewController {
     private let startDatePicker = UIDatePicker()
     private let endDatePicker = UIDatePicker()
     private let formatter = DateFormatter()
-    private var disposeBag = DisposeBag()
-    private var viewModel: AddAnimeMangaVM?
+    private let disposeBag = DisposeBag()
+    private var viewModel: AddAnimeMangaVM!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,7 +35,6 @@ class AddAnimeMangaVC: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        self.disposeBag = DisposeBag()
     }
     
     deinit {
@@ -67,7 +66,7 @@ class AddAnimeMangaVC: UIViewController {
         
         self.view.addGestureRecognizer(tap)
         
-        viewModel?.titleSubject
+        viewModel.titleSubject
             .subscribe(onNext: { [weak self] (title) in
                 self?.title = title
             }).disposed(by: disposeBag)
@@ -106,7 +105,7 @@ class AddAnimeMangaVC: UIViewController {
                 self?.saveBtnPressed()
             }).disposed(by: disposeBag)
         
-        viewModel?.setAnimeMangaSubject
+        viewModel.setAnimeMangaSubject
             .subscribe(onNext: { [weak self] _ in
                 self?.back()
             }).disposed(by: disposeBag)
@@ -129,7 +128,7 @@ class AddAnimeMangaVC: UIViewController {
                                url: urlText.text ?? "",
                                isFavorite: favoriteSwitch.isOn)
                 
-        viewModel?.setAnimeManga(newAnimeManga)
+        viewModel.setAnimeManga(newAnimeManga)
     }
     
     private func back() {
