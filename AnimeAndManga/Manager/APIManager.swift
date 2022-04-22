@@ -30,19 +30,6 @@ class APIManager {
             return APIManager.handleDecode(MangaRespModel.self, from: data)
         }
     }
-    
-    public enum DecodeError: Error, LocalizedError {
-        case dataNull
-        case fk
-        public var errorDescription: String? {
-            switch self {
-            case .dataNull:
-                return "Data Null"
-            case .fk:
-                return "fkkk"
-            }
-        }
-    }
 
     private static func handleDecode<T>(_ type: T.Type, from data: Data?) -> Single<T> where T: Decodable {
         if let strongData = data {
@@ -50,7 +37,7 @@ class APIManager {
                 let toResponse = try JSONDecoder().decode(T.self ,from: strongData)
                 return Single<T>.just(toResponse)
             } catch {
-                return Single.error(DecodeError.fk)
+                return Single.error(error)
             }
         } else {
             return Single.error(DecodeError.dataNull)
@@ -67,7 +54,7 @@ class APIManager {
                     }
                     singleEvent(.success(response.data))
                 case .failure(let error):
-                    singleEvent(.failure(DecodeError.fk))
+                    singleEvent(.failure(error))
                 }
             })
             return Disposables.create()
@@ -130,5 +117,17 @@ extension APIManager {
             }
         }
     }
+}
 
+enum DecodeError: Error, LocalizedError {
+    case dataNull
+    case urlOpenFail
+    var errorDescription: String? {
+        switch self {
+        case .dataNull:
+            return "Data Null."
+        case .urlOpenFail:
+            return "Url can not open."
+        }
+    }
 }

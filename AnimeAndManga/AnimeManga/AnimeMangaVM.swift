@@ -12,6 +12,7 @@ import RxDataSources
 enum PageStatus {
     case LoadingMore
     case NotLoadingMore
+    case Error
 }
 
 enum CellType: String {
@@ -32,6 +33,7 @@ class AnimeMangaVM {
     private var page: Int = 1
     let tableViewDataSubject = PublishSubject<[SectionModel<String, UiAnimeManga>]>()
     let titleSubject = ReplaySubject<String>.create(bufferSize: 1)
+    let errorHandleSubject = PublishSubject<Error>()
 
     init(type: PageType) {
         self.type = type
@@ -53,12 +55,14 @@ class AnimeMangaVM {
                 return self?.genAnimeUiList(viewObject) ?? []
             }
             .subscribe(onSuccess: { [weak self] (newUiAnimeList) in
+                self?.page += 1
                 self?.pageStatus = .NotLoadingMore
                 self?.apiAnimeMangaList += newUiAnimeList
                 self?.updateSectionModel()
             }, onFailure: { [weak self] (err) in
-                print(err)
-                self?.tableViewDataSubject.onError(err)
+                self?.pageStatus = .Error
+                self?.errorHandleSubject.onNext(err)
+                self?.updateSectionModel()
             }).disposed(by: disposeBag)
         }
         else {
@@ -66,16 +70,16 @@ class AnimeMangaVM {
                 return self?.genMangaUiList(viewObject) ?? []
             }
             .subscribe(onSuccess: { [weak self] (newUiAnimeList) in
+                self?.page += 1
                 self?.pageStatus = .NotLoadingMore
                 self?.apiAnimeMangaList += newUiAnimeList
                 self?.updateSectionModel()
             }, onFailure: { [weak self] (err) in
-                print(err)
-                self?.tableViewDataSubject.onError(err)
+                self?.pageStatus = .Error
+                self?.errorHandleSubject.onNext(err)
+                self?.updateSectionModel()
             }).disposed(by: disposeBag)
         }
-        
-        page += 1
     }
     
     func setFavorite(_ animeManga: UiAnimeManga) {

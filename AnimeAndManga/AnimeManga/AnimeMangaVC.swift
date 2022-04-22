@@ -72,6 +72,11 @@ class AnimeMangaVC: UIViewController {
             .bind(to: tableView.rx.items(dataSource: tableViewDataSource))
             .disposed(by: disposeBag)
         
+        viewModel.errorHandleSubject
+            .subscribe(onNext: { [weak self] err in
+                self?.urlErrorHandle(err)
+            }).disposed(by: disposeBag)
+
         tableView?.rx.itemSelected
             .map { [weak self] (indexPath) in
                 return (indexPath, self?.tableViewDataSource[indexPath])
@@ -86,7 +91,7 @@ class AnimeMangaVC: UIViewController {
                     self?.present(vc, animated: true)
                 }
                 else {
-                    self?.urlErrorHandle()
+                    self?.urlErrorHandle(DecodeError.urlOpenFail)
                 }
             })
             .disposed(by: disposeBag)
@@ -117,8 +122,8 @@ class AnimeMangaVC: UIViewController {
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
-    private func urlErrorHandle() {
-        let controller = UIAlertController(title: "Error", message: "Url can not open.", preferredStyle: .alert)
+    private func urlErrorHandle(_ error: Error) {
+        let controller = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: .alert)
         let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
         controller.addAction(okAction)
         present(controller, animated: true, completion: nil)
