@@ -1,8 +1,8 @@
 //
-//  AnimeMangaVC.swift
+//  FavoriteListVC.swift
 //  AnimeAndManga
 //
-//  Created by JerryLo on 2022/4/16.
+//  Created by JerryLo on 2022/4/27.
 //
 
 import UIKit
@@ -11,14 +11,13 @@ import RxCocoa
 import RxDataSources
 import SafariServices
 
-class AnimeMangaVC: UIViewController {
-    
+class FavoriteListVC: UIViewController {
+
     @IBOutlet weak var tableView: UITableView!
     
-    private let addBtn = UIBarButtonItem(title: "Add", style: .done, target: self, action: nil)
-    private var viewModel: AnimeMangaVM!
+    private let viewModel = FavoriteListVM.init()
     private let disposeBag = DisposeBag()
-
+    
     private lazy var tableViewDataSource = RxTableViewSectionedReloadDataSource <SectionModel<String, UiAnimeManga>>(
         configureCell: { [weak self] (dataSource, tableView, indexPath, item) in
             
@@ -38,26 +37,26 @@ class AnimeMangaVC: UIViewController {
                 return cell
             }
         })
-        
+
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         setupUI()
         dataBinding()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        viewModel.updateSectionModel()
-    }
-    
-    func initVC(type: PageType) {
-        self.viewModel = AnimeMangaVM.init(type: type)
+//        viewModel.updateSectionModel()
+        viewModel.getNewPage()
     }
     
     private func setupUI() {
         tableView.tableFooterView = UIView()
         tableView.delegate = self
+//        tableView.register(AnimeMangaCell_old.self, forCellReuseIdentifier: "AnimeMangaCell")
+        
         var nib = UINib(nibName: "LoadingCell", bundle: nil)
         tableView.register(nib, forCellReuseIdentifier: "LoadingCell")
         
@@ -65,15 +64,17 @@ class AnimeMangaVC: UIViewController {
         tableView.register(nib, forCellReuseIdentifier: "AnimeMangaCell")
 
         
-        self.navigationItem.rightBarButtonItem = addBtn
-    }
+//        tableView.register(LoadingCell_old.self, forCellReuseIdentifier: "LoadingCell")
+//        tableView.register(nib, forCellReuseIdentifier: "SetupAutogenAutomationCell")
+//        tableView.regist
 
+//        tableView.register(TimeTableViewCell.self, forCellReuseIdentifier: "TimeTableViewCell")
+
+
+
+    }
+    
     private func dataBinding() {
-        viewModel.titleSubject
-            .subscribe(onNext: { [weak self] (title) in
-                self?.title = title
-            }).disposed(by: disposeBag)
-        
         viewModel.tableViewDataSubject
             .bind(to: tableView.rx.items(dataSource: tableViewDataSource))
             .disposed(by: disposeBag)
@@ -101,42 +102,27 @@ class AnimeMangaVC: UIViewController {
                 }
             })
             .disposed(by: disposeBag)
-        
-        tableView.rx.contentOffset
-            .subscribe(onNext: { [weak self] contentOffset in
-                if contentOffset.y >= ((self?.tableView.contentSize.height ?? 0) - (self?.tableView.frame.size.height ?? 0)) && self?.viewModel.getPageStatus() == .NotLoadingMore {
-                    self?.viewModel.getNewPage()
-                }
-            })
-            .disposed(by: disposeBag)
-        
-        addBtn.rx.tap.subscribe(onNext: { [weak self] _ in
-            self?.addBtnPressed()
-        }).disposed(by: disposeBag)
 
     }
     
     private func favoriteBtnPressed(animeManga: UiAnimeManga) {
         viewModel.setFavorite(animeManga)
     }
-    
-    private func addBtnPressed() {
-        let storyboard: UIStoryboard = UIStoryboard.init(name: "Main", bundle: Bundle.main)
-        let vc: AddAnimeMangaVC = storyboard.instantiateViewController(withIdentifier: "AddAnimeMangaVC") as! AddAnimeMangaVC
-        vc.initVC(type: viewModel.getPageType())
         
-        self.navigationController?.pushViewController(vc, animated: true)
-    }
-    
     private func urlErrorHandle(_ error: Error) {
         let controller = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: .alert)
         let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
         controller.addAction(okAction)
         present(controller, animated: true, completion: nil)
     }
+
+    
+    
+
 }
 
-extension AnimeMangaVC: UITableViewDelegate {
+
+extension FavoriteListVC: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 85
     }

@@ -2,14 +2,15 @@
 //  AnimeMangaCell.swift
 //  AnimeAndManga
 //
-//  Created by JerryLo on 2022/4/16.
+//  Created by JerryLo on 2022/4/27.
 //
 
 import UIKit
 import RxSwift
 
-class AnimeMangaCell: UITableViewCell {
 
+class AnimeMangaCell: UITableViewCell {
+    
     @IBOutlet weak var rank: UILabel!
     @IBOutlet weak var title: UILabel!
     @IBOutlet weak var startDate: UILabel!
@@ -46,13 +47,13 @@ class AnimeMangaCell: UITableViewCell {
         
         DispatchQueue.global().async {
             if let url = URL(string: animeManga.imageUrl), let data = try? Data(contentsOf: url) {
-                DispatchQueue.main.async {
-                    self.img.image = UIImage(data: data)
+                DispatchQueue.main.async { [weak self] in
+                    self?.img.image = UIImage(data: data)
                 }
             }
             else {
-                DispatchQueue.main.async {
-                    self.img.image = UIImage(named: "noImage")
+                DispatchQueue.main.async { [weak self] in
+                    self?.img.image = UIImage(named: "noImage")
                 }
             }
         }
