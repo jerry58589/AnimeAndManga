@@ -14,52 +14,55 @@ class FavoriteListVM {
     private var apiFavoriteAnimeList = [UiAnimeManga]()
     private var apiFavoriteMangaList = [UiAnimeManga]()
     private var pageStatus: PageStatus = .NotLoadingMore
-    private var type: PageType = .Anime
+    private(set) var pageType: PageType = .Anime
     private var noInfoAnimeFavoriteList: [Int] = []
     private var noInfoMangaFavoriteList: [Int] = []
+    private var retryMaxCount = 5
+    private var retryCount = 0
+
     
     let tableViewDataSubject = PublishSubject<[SectionModel<String, UiAnimeManga>]>()
     let pageTypeSubject = ReplaySubject<PageType>.create(bufferSize: 1)
     let errorHandleSubject = PublishSubject<Error>()
 
     init() {
-        pageTypeSubject.onNext(type)
+        pageTypeSubject.onNext(pageType)
     }
     
     func setType(_ type: PageType) {
-        self.type = type
+        self.pageType = type
         pageTypeSubject.onNext(type)
 
-        getFavoriteList()
+        getFavoriteList(type: type)
     }
     
-    func getFavoriteList() {
+    func getFavoriteList(type: PageType) {
         pageStatus = .LoadingMore
         
         if type == .Anime {
-            noInfoAnimeFavoriteList = getUDFavoriteList()
-            updateNoInfoFavoriteList()
+            noInfoAnimeFavoriteList = getUDFavoriteList(type: type)
+            updateNoInfoFavoriteList(type: type)
         }
         else if type == .Manga {
-            noInfoMangaFavoriteList = getUDFavoriteList()
-            updateNoInfoFavoriteList()
+            noInfoMangaFavoriteList = getUDFavoriteList(type: type)
+            updateNoInfoFavoriteList(type: type)
         }
                     
         if type == .Anime && noInfoAnimeFavoriteList.count > 0 {
-            callGetAnimeMangaApi(page: 1)
+            callGetAnimeMangaApi(type: type, page: 1)
         }
         else if type == .Manga && noInfoMangaFavoriteList.count > 0 {
-            callGetAnimeMangaApi(page: 1)
+            callGetAnimeMangaApi(type: type, page: 1)
         }
         else {
             pageStatus = .NotLoadingMore
         }
         
-        updateSectionModel()
+        updateSectionModel(type: pageType)
     }
     
     func setFavorite(_ animeManga: UiAnimeManga) {
-        var favoriteList: [Int] = getUDFavoriteList()
+        var favoriteList: [Int] = getUDFavoriteList(type: pageType)
         
         if animeManga.isFavorite {
             favoriteList = favoriteList.filter({$0 != animeManga.id})
@@ -70,66 +73,92 @@ class FavoriteListVM {
         
         setUDFavoriteList(favoriteList)
 
-        updateSectionModel()
+        updateSectionModel(type: pageType)
     }
     
-    private func callGetAnimeMangaApi(page: Int) {
-        if type == .Anime {
+    private func callGetAnimeMangaApi(type: PageType, page: Int) {
+        if type == .Anime && pageType == .Anime {
+            print("FavoriteListVM get Anime:", page)
             APIManager.shared.getAnime(page: String(page)).map { [weak self] (viewObject) -> [UiAnimeManga] in
                 let animeUiList = self?.genAnimeUiList(viewObject) ?? []
                 let nextPage = page + 1
                 let lastPage = viewObject.pagination.last_visible_page
                 
-                self?.apiFavoriteAnimeList += self?.genApiFavoriteUiList(animeUiList) ?? []
-                self?.updateNoInfoFavoriteList()
+                self?.apiFavoriteAnimeList += self?.genApiFavoriteUiList(type: type, animeUiList) ?? []
+                self?.updateNoInfoFavoriteList(type: type)
 
                 if (self?.noInfoAnimeFavoriteList.count ?? 0) > 0 && lastPage >= nextPage {
-                    self?.callGetAnimeMangaApi(page: nextPage)
+                    self?.callGetAnimeMangaApi(type: type, page: nextPage)
                 }
                 else {
                     self?.pageStatus = .NotLoadingMore
+                    print("FavoriteListVM get Anime is finish!!")
                 }
                 
                 return (self?.apiFavoriteAnimeList ?? [])
             }
             .subscribe(onSuccess: { [weak self] _ in
-                self?.updateSectionModel()
+                self?.retryCount = 0
+                self?.updateSectionModel(type: self?.pageType ?? .Anime)
             }, onFailure: { [weak self] (err) in
-                self?.pageStatus = .Error
-                self?.errorHandleSubject.onNext(err)
+                if (self?.retryCount ?? 0) < (self?.retryMaxCount ?? 0) {
+                    self?.retryCount += 1
+                    self?.callGetAnimeMangaApi(type: type, page: page)
+                    print("FavoriteListVM get Anime retry", self?.retryCount ?? 0)
+                }
+                else {
+                    self?.pageStatus = .Error
+                    self?.errorHandleSubject.onNext(err)
+                    print("FavoriteListVM get Anime is error:", err.localizedDescription)
+                }
             }).disposed(by: disposeBag)
         }
-        else {
+        else if type == .Manga && pageType == .Manga {
+            print("FavoriteListVM get Manga:", page)
             APIManager.shared.getManga(page: String(page)).map { [weak self] (viewObject) -> [UiAnimeManga] in
                 let mangaUiList = self?.genMangaUiList(viewObject) ?? []
                 let nextPage = page + 1
                 let lastPage = viewObject.pagination.last_visible_page
                 
-                self?.apiFavoriteMangaList += self?.genApiFavoriteUiList(mangaUiList) ?? []
-                self?.updateNoInfoFavoriteList()
+                self?.apiFavoriteMangaList += self?.genApiFavoriteUiList(type: type, mangaUiList) ?? []
+                self?.updateNoInfoFavoriteList(type: type)
 
                 if (self?.noInfoMangaFavoriteList.count ?? 0) > 0 && lastPage >= nextPage {
-                    self?.callGetAnimeMangaApi(page: nextPage)
+                    self?.callGetAnimeMangaApi(type: type, page: nextPage)
                 }
                 else {
                     self?.pageStatus = .NotLoadingMore
+                    print("FavoriteListVM get Manga is finish!!")
                 }
                 
                 return (self?.apiFavoriteMangaList ?? [])
             }
             .subscribe(onSuccess: { [weak self] _ in
-                self?.updateSectionModel()
-            }, onFailure: { [weak self] (err) in
-                self?.pageStatus = .Error
-                self?.errorHandleSubject.onNext(err)
+                self?.retryCount = 0
+                self?.updateSectionModel(type: self?.pageType ?? .Manga)
+            }, onFailure: { [weak self] (err) in                
+                if (self?.retryCount ?? 0) < (self?.retryMaxCount ?? 0) {
+                    self?.retryCount += 1
+                    self?.callGetAnimeMangaApi(type: type, page: page)
+                    print("FavoriteListVM get Manga retry", self?.retryCount ?? 0)
+                }
+                else {
+                    self?.pageStatus = .Error
+                    self?.errorHandleSubject.onNext(err)
+                    print("FavoriteListVM get Manga is error:", err.localizedDescription)
+                }
+
             }).disposed(by: disposeBag)
+        }
+        else {
+            print("FavoriteListVM get api stop type:", type)
         }
     }
 
-    private func updateNoInfoFavoriteList() {
+    private func updateNoInfoFavoriteList(type: PageType) {
         if type == .Anime {
             noInfoAnimeFavoriteList = noInfoAnimeFavoriteList.filter { noInfoAnime in
-                return !getCustomizeFavoriteUiList().contains{ $0.id == noInfoAnime}
+                return !getCustomizeFavoriteUiList(type: type).contains{ $0.id == noInfoAnime}
             }
             
             noInfoAnimeFavoriteList = noInfoAnimeFavoriteList.filter { [weak self] noInfoAnime in
@@ -138,7 +167,7 @@ class FavoriteListVM {
         }
         else if type == .Manga {
             noInfoMangaFavoriteList = noInfoMangaFavoriteList.filter { noInfoManga in
-                return !getCustomizeFavoriteUiList().contains{ $0.id == noInfoManga}
+                return !getCustomizeFavoriteUiList(type: type).contains{ $0.id == noInfoManga}
             }
             
             noInfoMangaFavoriteList = noInfoMangaFavoriteList.filter { [weak self] noInfoManga in
@@ -147,15 +176,15 @@ class FavoriteListVM {
         }
     }
     
-    private func updateApiFavoriteList() {
+    private func updateApiFavoriteList(type: PageType) {
         if type == .Anime {
             apiFavoriteAnimeList = apiFavoriteAnimeList.filter { apiFavoriteAnime in
-                return getUDFavoriteList().contains{apiFavoriteAnime.id == $0}
+                return getUDFavoriteList(type: type).contains{apiFavoriteAnime.id == $0}
             }
         }
         else if type == .Manga {
             apiFavoriteMangaList = apiFavoriteMangaList.filter { apiFavoriteManga in
-                return getUDFavoriteList().contains{apiFavoriteManga.id == $0}
+                return getUDFavoriteList(type: type).contains{apiFavoriteManga.id == $0}
             }
         }
     }
@@ -186,7 +215,7 @@ class FavoriteListVM {
         }
     }
         
-    private func genApiFavoriteUiList(_ uiAnimeMangaList: [UiAnimeManga]) -> [UiAnimeManga] {
+    private func genApiFavoriteUiList(type: PageType, _ uiAnimeMangaList: [UiAnimeManga]) -> [UiAnimeManga] {
         if type == .Anime {
             return uiAnimeMangaList.filter { uiAnimeManga in
                 return noInfoAnimeFavoriteList.contains(uiAnimeManga.id)
@@ -218,9 +247,9 @@ class FavoriteListVM {
         
     }
     
-    private func getCustomizeFavoriteUiList() -> [UiAnimeManga] {
-        return getUDCustomizeList().filter { customizeAnime in
-            getUDFavoriteList().contains{ $0 == customizeAnime.id}
+    private func getCustomizeFavoriteUiList(type: PageType) -> [UiAnimeManga] {
+        return getUDCustomizeList(type: type).filter { customizeAnime in
+            getUDFavoriteList(type: type).contains{ $0 == customizeAnime.id}
         }.map { anime -> UiAnimeManga in
             return .init(id: anime.id,
                          imageUrl: anime.imageUrl,
@@ -252,18 +281,18 @@ class FavoriteListVM {
         return sectionModel
     }
     
-    private func updateSectionModel() {
-        updateApiFavoriteList()
+    private func updateSectionModel(type: PageType) {
+        updateApiFavoriteList(type: type)
         
         if type == .Anime {
-            let customizeFavoriteUiMangaList = getCustomizeFavoriteUiList()
+            let customizeFavoriteUiMangaList = getCustomizeFavoriteUiList(type: type)
             var resultUiAnimeList = apiFavoriteAnimeList + customizeFavoriteUiMangaList
             resultUiAnimeList = resultUiAnimeList.sorted(by: {Int($0.rank) ?? 0 < Int($1.rank) ?? 0})
             
             tableViewDataSubject.onNext(genSectionModel(resultUiAnimeList))
         }
         else if type == .Manga {
-            let customizeFavoriteUiMangaList = getCustomizeFavoriteUiList()
+            let customizeFavoriteUiMangaList = getCustomizeFavoriteUiList(type: type)
             var resultUiMangaList = apiFavoriteMangaList + customizeFavoriteUiMangaList
             resultUiMangaList = resultUiMangaList.sorted(by: {Int($0.rank) ?? 0 < Int($1.rank) ?? 0})
             
@@ -271,7 +300,7 @@ class FavoriteListVM {
         }
     }
     
-    private func getUDFavoriteList() -> [Int] {
+    private func getUDFavoriteList(type: PageType) -> [Int] {
         if type == .Anime {
             return UserDefaultManager.shared.getAnimeFavoriteList()
         }
@@ -281,7 +310,7 @@ class FavoriteListVM {
     }
 
     private func setUDFavoriteList(_ list: [Int]) {
-        if type == .Anime {
+        if pageType == .Anime {
             UserDefaultManager.shared.setAnimeFavoriteList(list)
         }
         else {
@@ -289,7 +318,7 @@ class FavoriteListVM {
         }
     }
     
-    private func getUDCustomizeList() -> [UiAnimeManga] {
+    private func getUDCustomizeList(type: PageType) -> [UiAnimeManga] {
         if type == .Anime {
             return UserDefaultManager.shared.getAnimeCustomizeList()
         }

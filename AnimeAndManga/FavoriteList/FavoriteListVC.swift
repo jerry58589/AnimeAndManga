@@ -51,7 +51,7 @@ class FavoriteListVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        viewModel.getFavoriteList()
+        viewModel.getFavoriteList(type: viewModel.pageType)
     }
     
     private func setupUI() {
