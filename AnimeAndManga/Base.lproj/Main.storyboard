@@ -144,8 +144,8 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="YwD-lm-86a"/>
                                 </constraints>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="Save"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" title="Save"/>
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Whw-B8-boj"/>
@@ -259,24 +259,24 @@
                                         <rect key="frame" x="5" y="5" width="100" height="40"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="40" id="PK5-ak-Z8v"/>
-                                            <constraint firstAttribute="width" constant="100" id="Q0e-pq-jcR"/>
+                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="100" id="Q0e-pq-jcR"/>
                                         </constraints>
-                                        <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="plain" title="Anime"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" title="Anime"/>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VDV-QS-tg1">
                                         <rect key="frame" x="110" y="5" width="100" height="40"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="40" id="j0f-pY-PjW"/>
-                                            <constraint firstAttribute="width" constant="100" id="zlW-rf-sCO"/>
+                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="100" id="zlW-rf-sCO"/>
                                         </constraints>
-                                        <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="plain" title="Manga"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" title="Manga"/>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemGreenColor"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="215" id="B74-Kh-b5E"/>
+                                    <constraint firstItem="VDV-QS-tg1" firstAttribute="leading" secondItem="P3R-CW-7zI" secondAttribute="trailing" constant="5" id="7Dd-zp-Rgf"/>
                                     <constraint firstItem="P3R-CW-7zI" firstAttribute="leading" secondItem="ldK-Q2-jjj" secondAttribute="leading" constant="5" id="FM2-yz-w7O"/>
                                     <constraint firstItem="P3R-CW-7zI" firstAttribute="centerY" secondItem="ldK-Q2-jjj" secondAttribute="centerY" id="IG1-lp-G3q"/>
                                     <constraint firstItem="VDV-QS-tg1" firstAttribute="centerY" secondItem="ldK-Q2-jjj" secondAttribute="centerY" id="IK0-01-eFu"/>
