@@ -34,7 +34,7 @@ class AddAnimeMangaVM {
         
         if newAnime.isFavorite {
             var favoriteList = getFavoriteList()
-            favoriteList.append(newAnime.id)
+            favoriteList.append(.init(id: newAnime.id, rank: newAnime.rank))
             setFavoriteList(favoriteList)
         }
         
@@ -50,7 +50,7 @@ class AddAnimeMangaVM {
         }
     }
     
-    private func getFavoriteList() -> [Int] {
+    private func getFavoriteList() -> [UiFavorite] {
         if type == .Anime {
             return UserDefaultManager.shared.getAnimeFavoriteList()
         }
@@ -59,7 +59,7 @@ class AddAnimeMangaVM {
         }
     }
 
-    private func setFavoriteList(_ list: [Int]) {
+    private func setFavoriteList(_ list: [UiFavorite]) {
         if type == .Anime {
             UserDefaultManager.shared.setAnimeFavoriteList(list)
         }

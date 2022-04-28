@@ -10,6 +10,7 @@
 		0766B79D294C0CB9D8BC69A3 /* Pods_AnimeAndManga.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E66468C8C0E3EEE5A4C4611 /* Pods_AnimeAndManga.framework */; };
 		9C9D989E675232503C0DAF42 /* Pods_AnimeAndManga_AnimeAndMangaUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07C048B123A46E5D7F045ED5 /* Pods_AnimeAndManga_AnimeAndMangaUITests.framework */; };
 		A4E923D68C670AE430741333 /* Pods_AnimeAndMangaTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1893A0A0F4A3BD1F97555503 /* Pods_AnimeAndMangaTests.framework */; };
+		C41F1E99281ADBAC00B135D1 /* FavoriteModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C41F1E98281ADBAC00B135D1 /* FavoriteModel.swift */; };
 		C429F67B280D1A87007099B1 /* AddAnimeMangaVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C429F67A280D1A86007099B1 /* AddAnimeMangaVC.swift */; };
 		C429F680280FA932007099B1 /* AddAnimeMangaVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = C429F67F280FA932007099B1 /* AddAnimeMangaVM.swift */; };
 		C429F685280FB373007099B1 /* UserDefaultManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C429F684280FB373007099B1 /* UserDefaultManager.swift */; };
@@ -65,6 +66,7 @@
 		6D936AD969790E02FE31AC98 /* Pods-AnimeAndManga-AnimeAndMangaUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AnimeAndManga-AnimeAndMangaUITests.debug.xcconfig"; path = "Target Support Files/Pods-AnimeAndManga-AnimeAndMangaUITests/Pods-AnimeAndManga-AnimeAndMangaUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		7E66468C8C0E3EEE5A4C4611 /* Pods_AnimeAndManga.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AnimeAndManga.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C31B62BE0CEA0A3560B6A074 /* Pods-AnimeAndManga-AnimeAndMangaUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AnimeAndManga-AnimeAndMangaUITests.release.xcconfig"; path = "Target Support Files/Pods-AnimeAndManga-AnimeAndMangaUITests/Pods-AnimeAndManga-AnimeAndMangaUITests.release.xcconfig"; sourceTree = "<group>"; };
+		C41F1E98281ADBAC00B135D1 /* FavoriteModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteModel.swift; sourceTree = "<group>"; };
 		C429F67A280D1A86007099B1 /* AddAnimeMangaVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddAnimeMangaVC.swift; sourceTree = "<group>"; };
 		C429F67F280FA932007099B1 /* AddAnimeMangaVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddAnimeMangaVM.swift; sourceTree = "<group>"; };
 		C429F684280FB373007099B1 /* UserDefaultManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultManager.swift; sourceTree = "<group>"; };
@@ -262,6 +264,7 @@
 			children = (
 				C4F59FE8281921CB0065E865 /* FavoriteListVC.swift */,
 				C4F59FEA281922F10065E865 /* FavoriteListVM.swift */,
+				C41F1E98281ADBAC00B135D1 /* FavoriteModel.swift */,
 			);
 			path = FavoriteList;
 			sourceTree = "<group>";
@@ -551,6 +554,7 @@
 				C429F6912811006D007099B1 /* MangaNavigationController.swift in Sources */,
 				C4E90FB2280AB48C0069F2FB /* AnimeRespModel.swift in Sources */,
 				C4E90FB6280AF4DE0069F2FB /* AnimeMangaModel.swift in Sources */,
+				C41F1E99281ADBAC00B135D1 /* FavoriteModel.swift in Sources */,
 				C4E90FA7280A9D500069F2FB /* AnimeMangaVC.swift in Sources */,
 				C4F59FEB281922F10065E865 /* FavoriteListVM.swift in Sources */,
 			);

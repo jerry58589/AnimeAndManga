@@ -60,7 +60,8 @@ class AnimeMangaVM {
         updateSectionModel()
         
         if type == .Anime {
-            APIManager.shared.getAnime(page: String(page)).map { [weak self] (viewObject) -> [UiAnimeManga] in
+            APIManager.shared.getAnime(page: String(page)).retry(5)
+            .map { [weak self] (viewObject) -> [UiAnimeManga] in
                 self?.animeHasNextPage = viewObject.pagination.has_next_page
                 return self?.genAnimeUiList(viewObject) ?? []
             }
@@ -76,7 +77,8 @@ class AnimeMangaVM {
             }).disposed(by: disposeBag)
         }
         else {
-            APIManager.shared.getManga(page: String(page)).map { [weak self] (viewObject) -> [UiAnimeManga] in
+            APIManager.shared.getManga(page: String(page)).retry(5)
+            .map { [weak self] (viewObject) -> [UiAnimeManga] in
                 self?.mangaHasNextPage = viewObject.pagination.has_next_page
                 return self?.genMangaUiList(viewObject) ?? []
             }
@@ -94,13 +96,13 @@ class AnimeMangaVM {
     }
     
     func setFavorite(_ animeManga: UiAnimeManga) {
-        var favoriteList: [Int] = getFavoriteList()
+        var favoriteList: [UiFavorite] = getFavoriteList()
         
         if animeManga.isFavorite {
-            favoriteList = favoriteList.filter({$0 != animeManga.id})
+            favoriteList = favoriteList.filter({$0.id != animeManga.id})
         }
         else {
-            favoriteList.append(animeManga.id)
+            favoriteList.append(.init(id: animeManga.id, rank: animeManga.rank))
         }
         
         setFavoriteList(favoriteList)
@@ -155,7 +157,7 @@ class AnimeMangaVM {
         let favoriteList = getFavoriteList()
         
         return animeMangaList.map { animeManga -> UiAnimeManga in
-            let isFavorite = favoriteList.contains(animeManga.id)
+            let isFavorite = favoriteList.contains{$0.id == animeManga.id}
             return .init(id: animeManga.id,
                          imageUrl: animeManga.imageUrl,
                          title: animeManga.title,
@@ -186,7 +188,7 @@ class AnimeMangaVM {
         return sectionModel
     }
     
-    private func getFavoriteList() -> [Int] {
+    private func getFavoriteList() -> [UiFavorite] {
         
         if type == .Anime {
             return UserDefaultManager.shared.getAnimeFavoriteList()
@@ -196,8 +198,7 @@ class AnimeMangaVM {
         }
     }
 
-    private func setFavoriteList(_ list: [Int]) {
-        
+    private func setFavoriteList(_ list: [UiFavorite]) {
         if type == .Anime {
             UserDefaultManager.shared.setAnimeFavoriteList(list)
         }

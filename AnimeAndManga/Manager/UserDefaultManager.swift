@@ -16,13 +16,19 @@ enum UserDefaultKey: String {
 
 class UserDefaultManager {
     static let shared = UserDefaultManager()
-    
-    func getAnimeFavoriteList() -> [Int] {
-        return UserDefaults.standard.object(forKey: UserDefaultKey.AnimeFavoriteList.rawValue) as? [Int] ?? []
+
+    func getAnimeFavoriteList() -> [UiFavorite] {
+        if let data = UserDefaults.standard.value(forKey: UserDefaultKey.AnimeFavoriteList.rawValue) as? Data {
+            let uiFavoriteList = try? PropertyListDecoder().decode(Array<UiFavorite>.self, from: data)
+            return uiFavoriteList ?? []
+        }
+        else {
+            return []
+        }
     }
 
-    func setAnimeFavoriteList(_ list: [Int]) {
-        UserDefaults.standard.set(list, forKey: UserDefaultKey.AnimeFavoriteList.rawValue)
+    func setAnimeFavoriteList(_ list: [UiFavorite]) {
+        UserDefaults.standard.set(try? PropertyListEncoder().encode(list), forKey: UserDefaultKey.AnimeFavoriteList.rawValue)
     }
     
     func getAnimeCustomizeList() -> [UiAnimeManga] {
@@ -42,12 +48,18 @@ class UserDefaultManager {
         UserDefaults.standard.set(try? PropertyListEncoder().encode(uiAnimeList), forKey: UserDefaultKey.AnimeCustomizeList.rawValue)
     }
     
-    func getMangaFavoriteList() -> [Int] {
-        return UserDefaults.standard.object(forKey: UserDefaultKey.MangaFavoriteList.rawValue) as? [Int] ?? []
+    func getMangaFavoriteList() -> [UiFavorite] {
+        if let data = UserDefaults.standard.value(forKey: UserDefaultKey.MangaFavoriteList.rawValue) as? Data {
+            let uiFavoriteList = try? PropertyListDecoder().decode(Array<UiFavorite>.self, from: data)
+            return uiFavoriteList ?? []
+        }
+        else {
+            return []
+        }
     }
 
-    func setMangaFavoriteList(_ list: [Int]) {
-        UserDefaults.standard.set(list, forKey: UserDefaultKey.MangaFavoriteList.rawValue)
+    func setMangaFavoriteList(_ list: [UiFavorite]) {
+        UserDefaults.standard.set(try? PropertyListEncoder().encode(list), forKey: UserDefaultKey.MangaFavoriteList.rawValue)
     }
     
     func getMangaCustomizeList() -> [UiAnimeManga] {
