@@ -31,6 +31,8 @@ class AnimeMangaVM {
     private var pageStatus: PageStatus = .NotLoadingMore
     private let type: PageType
     private var page: Int = 1
+    private var animeHasNextPage = true
+    private var mangaHasNextPage = true
     let tableViewDataSubject = PublishSubject<[SectionModel<String, UiAnimeManga>]>()
     let titleSubject = ReplaySubject<String>.create(bufferSize: 1)
     let errorHandleSubject = PublishSubject<Error>()
@@ -47,11 +49,19 @@ class AnimeMangaVM {
     }
     
     func getNewPage() {
+        if !animeHasNextPage && type == .Anime {
+            return
+        }
+        else if !mangaHasNextPage && type == .Manga {
+            return
+        }
+        
         pageStatus = .LoadingMore
         updateSectionModel()
         
         if type == .Anime {
             APIManager.shared.getAnime(page: String(page)).map { [weak self] (viewObject) -> [UiAnimeManga] in
+                self?.animeHasNextPage = viewObject.pagination.has_next_page
                 return self?.genAnimeUiList(viewObject) ?? []
             }
             .subscribe(onSuccess: { [weak self] (newUiAnimeList) in
@@ -67,6 +77,7 @@ class AnimeMangaVM {
         }
         else {
             APIManager.shared.getManga(page: String(page)).map { [weak self] (viewObject) -> [UiAnimeManga] in
+                self?.mangaHasNextPage = viewObject.pagination.has_next_page
                 return self?.genMangaUiList(viewObject) ?? []
             }
             .subscribe(onSuccess: { [weak self] (newUiAnimeList) in
@@ -120,8 +131,8 @@ class AnimeMangaVM {
                          imageUrl: data.images.jpg.image_url ?? "noImage",
                          title: data.title,
                          rank: String(data.rank),
-                         startDate: data.aired.from.components(separatedBy: "T").first ?? data.aired.from,
-                         endDate: (data.aired.to ?? "now").components(separatedBy: "T").first ?? "now",
+                         startDate: (data.aired?.from ?? "nil").components(separatedBy: "T").first ?? "nil",
+                         endDate: (data.aired?.to ?? "now").components(separatedBy: "T").first ?? "now",
                          url: data.url,
                          isFavorite: false)
         }
@@ -133,8 +144,8 @@ class AnimeMangaVM {
                          imageUrl: data.images.jpg.image_url ?? "noImage",
                          title: data.title,
                          rank: String(data.rank),
-                         startDate: data.published.from.components(separatedBy: "T").first ?? data.published.from,
-                         endDate: (data.published.to ?? "nowT").components(separatedBy: "T").first ?? "now",
+                         startDate: (data.published?.from ?? "nil").components(separatedBy: "T").first ?? "nil",
+                         endDate: (data.published?.to ?? "now").components(separatedBy: "T").first ?? "now",
                          url: data.url,
                          isFavorite: false)
         }

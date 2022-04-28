@@ -20,7 +20,6 @@ class FavoriteListVM {
     private var retryMaxCount = 5
     private var retryCount = 0
 
-    
     let tableViewDataSubject = PublishSubject<[SectionModel<String, UiAnimeManga>]>()
     let pageTypeSubject = ReplaySubject<PageType>.create(bufferSize: 1)
     let errorHandleSubject = PublishSubject<Error>()
@@ -82,12 +81,12 @@ class FavoriteListVM {
             APIManager.shared.getAnime(page: String(page)).map { [weak self] (viewObject) -> [UiAnimeManga] in
                 let animeUiList = self?.genAnimeUiList(viewObject) ?? []
                 let nextPage = page + 1
-                let lastPage = viewObject.pagination.last_visible_page
+                let hasNextPage = viewObject.pagination.has_next_page
                 
                 self?.apiFavoriteAnimeList += self?.genApiFavoriteUiList(type: type, animeUiList) ?? []
                 self?.updateNoInfoFavoriteList(type: type)
 
-                if (self?.noInfoAnimeFavoriteList.count ?? 0) > 0 && lastPage >= nextPage {
+                if (self?.noInfoAnimeFavoriteList.count ?? 0) > 0 && hasNextPage {
                     self?.callGetAnimeMangaApi(type: type, page: nextPage)
                 }
                 else {
@@ -118,12 +117,12 @@ class FavoriteListVM {
             APIManager.shared.getManga(page: String(page)).map { [weak self] (viewObject) -> [UiAnimeManga] in
                 let mangaUiList = self?.genMangaUiList(viewObject) ?? []
                 let nextPage = page + 1
-                let lastPage = viewObject.pagination.last_visible_page
-                
+                let hasNextPage = viewObject.pagination.has_next_page
+
                 self?.apiFavoriteMangaList += self?.genApiFavoriteUiList(type: type, mangaUiList) ?? []
                 self?.updateNoInfoFavoriteList(type: type)
 
-                if (self?.noInfoMangaFavoriteList.count ?? 0) > 0 && lastPage >= nextPage {
+                if (self?.noInfoMangaFavoriteList.count ?? 0) > 0 && hasNextPage {
                     self?.callGetAnimeMangaApi(type: type, page: nextPage)
                 }
                 else {
@@ -195,8 +194,8 @@ class FavoriteListVM {
                          imageUrl: data.images.jpg.image_url ?? "noImage",
                          title: data.title,
                          rank: String(data.rank),
-                         startDate: data.aired.from.components(separatedBy: "T").first ?? data.aired.from,
-                         endDate: (data.aired.to ?? "now").components(separatedBy: "T").first ?? "now",
+                         startDate: (data.aired?.from ?? "nil").components(separatedBy: "T").first ?? "nil",
+                         endDate: (data.aired?.to ?? "now").components(separatedBy: "T").first ?? "now",
                          url: data.url,
                          isFavorite: false)
         }
@@ -208,8 +207,8 @@ class FavoriteListVM {
                          imageUrl: data.images.jpg.image_url ?? "noImage",
                          title: data.title,
                          rank: String(data.rank),
-                         startDate: data.published.from.components(separatedBy: "T").first ?? data.published.from,
-                         endDate: (data.published.to ?? "nowT").components(separatedBy: "T").first ?? "now",
+                         startDate: (data.published?.from ?? "nil").components(separatedBy: "T").first ?? "nil",
+                         endDate: (data.published?.to ?? "now").components(separatedBy: "T").first ?? "now",
                          url: data.url,
                          isFavorite: false)
         }

@@ -32,23 +32,23 @@ struct AnimeData: Decodable {
     let trailer: Trailer
     let title: String
     let title_english: String?
-    let title_japanese: String
+    let title_japanese: String?
     let title_synonyms: [String]
     let type: String
     let source: String
     let episodes: Int?
     let status: String
     let airing: Bool
-    let aired: Aired
+    let aired: Aired?
     let duration: String
     let rating: String
-    let score: Double
-    let scored_by: Int
+    let score: Double?
+    let scored_by: Int?
     let rank: Int
     let popularity: Int
     let members: Int
     let favorites: Int
-    let synopsis: String
+    let synopsis: String?
     let background: String?
     let season: String?
     let year: Int?
@@ -83,15 +83,15 @@ struct Trailer: Decodable {
 }
 
 struct Aired: Decodable {
-    let from: String
+    let from: String?
     let to: String?
     let prop: Prop
-    let string: String
+    let string: String?
 }
 
 struct Prop: Decodable {
-    let from: PropDate
-    let to: PropDate
+    let from: PropDate?
+    let to: PropDate?
 }
 
 struct PropDate: Decodable {

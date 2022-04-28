@@ -18,22 +18,22 @@ struct MangaData: Decodable {
     let images: Images
     let title: String
     let title_english: String?
-    let title_japanese: String
+    let title_japanese: String?
     let title_synonyms: [String]
     let type: String
     let chapters: Int?
     let volumes: Int?
     let status: String
     let publishing: Bool
-    let published: Published
-    let score: Double
-    let scored: Double
-    let scored_by: Int
+    let published: Published?
+    let score: Double?
+    let scored: Double?
+    let scored_by: Int?
     let rank: Int
     let popularity: Int
     let members: Int
     let favorites: Int
-    let synopsis: String
+    let synopsis: String?
     let background: String?
     let authors: [PersonInfo]
     let serializations: [PersonInfo]
@@ -44,8 +44,8 @@ struct MangaData: Decodable {
 }
 
 struct Published: Decodable {
-    let from: String
+    let from: String?
     let to: String?
-    let prop: Prop
-    let string: String
+    let prop: Prop?
+    let string: String?
 }
