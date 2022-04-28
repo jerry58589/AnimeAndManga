@@ -17,7 +17,7 @@ class FavoriteListVM {
     private(set) var pageType: PageType = .Anime
     private var noInfoAnimeFavoriteList: [Int] = []
     private var noInfoMangaFavoriteList: [Int] = []
-    private var retryMaxCount = 5
+    private let retryMaxCount = 5
     private var retryCount = 0
 
     let tableViewDataSubject = PublishSubject<[SectionModel<String, UiAnimeManga>]>()
