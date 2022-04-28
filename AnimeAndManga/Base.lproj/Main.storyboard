@@ -249,32 +249,72 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="17U-Y2-RXp">
-                                <rect key="frame" x="0.0" y="44" width="414" height="769"/>
+                                <rect key="frame" x="0.0" y="154" width="414" height="659"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </tableView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ldK-Q2-jjj">
+                                <rect key="frame" x="99.5" y="74" width="215" height="50"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="P3R-CW-7zI">
+                                        <rect key="frame" x="5" y="5" width="100" height="40"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="40" id="PK5-ak-Z8v"/>
+                                            <constraint firstAttribute="width" constant="100" id="Q0e-pq-jcR"/>
+                                        </constraints>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="Anime"/>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VDV-QS-tg1">
+                                        <rect key="frame" x="110" y="5" width="100" height="40"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="40" id="j0f-pY-PjW"/>
+                                            <constraint firstAttribute="width" constant="100" id="zlW-rf-sCO"/>
+                                        </constraints>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="Manga"/>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemGreenColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="215" id="B74-Kh-b5E"/>
+                                    <constraint firstItem="P3R-CW-7zI" firstAttribute="leading" secondItem="ldK-Q2-jjj" secondAttribute="leading" constant="5" id="FM2-yz-w7O"/>
+                                    <constraint firstItem="P3R-CW-7zI" firstAttribute="centerY" secondItem="ldK-Q2-jjj" secondAttribute="centerY" id="IG1-lp-G3q"/>
+                                    <constraint firstItem="VDV-QS-tg1" firstAttribute="centerY" secondItem="ldK-Q2-jjj" secondAttribute="centerY" id="IK0-01-eFu"/>
+                                    <constraint firstAttribute="height" constant="50" id="X0k-3x-dsV"/>
+                                    <constraint firstAttribute="trailing" secondItem="VDV-QS-tg1" secondAttribute="trailing" constant="5" id="kbW-lN-pci"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="QWf-q4-nHc"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="17U-Y2-RXp" firstAttribute="top" secondItem="QWf-q4-nHc" secondAttribute="top" id="7eF-yq-20I"/>
+                            <constraint firstItem="ldK-Q2-jjj" firstAttribute="top" secondItem="QWf-q4-nHc" secondAttribute="top" constant="30" id="1UO-NO-NtE"/>
+                            <constraint firstItem="ldK-Q2-jjj" firstAttribute="centerX" secondItem="pRb-om-I1R" secondAttribute="centerX" id="1ZV-yI-PWG"/>
                             <constraint firstItem="17U-Y2-RXp" firstAttribute="leading" secondItem="QWf-q4-nHc" secondAttribute="leading" id="7jm-qI-wK4"/>
+                            <constraint firstItem="17U-Y2-RXp" firstAttribute="top" secondItem="ldK-Q2-jjj" secondAttribute="bottom" constant="30" id="DCz-Jr-3H5"/>
                             <constraint firstItem="QWf-q4-nHc" firstAttribute="trailing" secondItem="17U-Y2-RXp" secondAttribute="trailing" id="Is6-TI-VDN"/>
                             <constraint firstItem="QWf-q4-nHc" firstAttribute="bottom" secondItem="17U-Y2-RXp" secondAttribute="bottom" id="bJM-m2-5RZ"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Favorite list" id="C2t-xE-9bf"/>
                     <connections>
+                        <outlet property="animeBtn" destination="P3R-CW-7zI" id="Lif-YV-2VF"/>
+                        <outlet property="btnBackView" destination="ldK-Q2-jjj" id="tO7-vC-YWz"/>
+                        <outlet property="mangaBtn" destination="VDV-QS-tg1" id="dCg-53-cAK"/>
                         <outlet property="tableView" destination="17U-Y2-RXp" id="8UV-PI-ziE"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Axi-z2-2fe" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2022" y="1110"/>
+            <point key="canvasLocation" x="2021.7391304347827" y="1109.5982142857142"/>
         </scene>
     </scenes>
     <resources>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemGreenColor">
+            <color red="0.20392156862745098" green="0.7803921568627451" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

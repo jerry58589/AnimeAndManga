@@ -14,6 +14,9 @@ import SafariServices
 class FavoriteListVC: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var animeBtn: UIButton!
+    @IBOutlet weak var mangaBtn: UIButton!
+    @IBOutlet weak var btnBackView: UIView!
     
     private let viewModel = FavoriteListVM.init()
     private let disposeBag = DisposeBag()
@@ -48,33 +51,46 @@ class FavoriteListVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-//        viewModel.updateSectionModel()
-        viewModel.getNewPage()
+        viewModel.getFavoriteList()
     }
     
     private func setupUI() {
         tableView.tableFooterView = UIView()
         tableView.delegate = self
-//        tableView.register(AnimeMangaCell_old.self, forCellReuseIdentifier: "AnimeMangaCell")
         
+        btnBackView.layer.cornerRadius = 10
+        btnBackView.layer.masksToBounds = true
+        
+        animeBtn.layer.cornerRadius = 10
+        animeBtn.layer.masksToBounds = true
+
+        mangaBtn.layer.cornerRadius = 10
+        mangaBtn.layer.masksToBounds = true
+
         var nib = UINib(nibName: "LoadingCell", bundle: nil)
         tableView.register(nib, forCellReuseIdentifier: "LoadingCell")
         
         nib = UINib(nibName: "AnimeMangaCell", bundle: nil)
         tableView.register(nib, forCellReuseIdentifier: "AnimeMangaCell")
 
-        
-//        tableView.register(LoadingCell_old.self, forCellReuseIdentifier: "LoadingCell")
-//        tableView.register(nib, forCellReuseIdentifier: "SetupAutogenAutomationCell")
-//        tableView.regist
-
-//        tableView.register(TimeTableViewCell.self, forCellReuseIdentifier: "TimeTableViewCell")
-
-
-
     }
     
     private func dataBinding() {
+        animeBtn.rx.tap
+            .subscribe(onNext: { [weak self] in
+                self?.viewModel.setType(.Anime)
+            }).disposed(by: disposeBag)
+        
+        mangaBtn.rx.tap
+            .subscribe(onNext: { [weak self] in
+                self?.viewModel.setType(.Manga)
+            }).disposed(by: disposeBag)
+        
+        viewModel.pageTypeSubject
+            .subscribe(onNext: { [weak self] type in
+                self?.updateBtnUI(type)
+            }).disposed(by: disposeBag)
+        
         viewModel.tableViewDataSubject
             .bind(to: tableView.rx.items(dataSource: tableViewDataSource))
             .disposed(by: disposeBag)
@@ -106,7 +122,14 @@ class FavoriteListVC: UIViewController {
     }
     
     private func favoriteBtnPressed(animeManga: UiAnimeManga) {
-        viewModel.setFavorite(animeManga)
+        let controller = UIAlertController(title: "Remove", message: "Are you sure you want to remove it?", preferredStyle: .alert)
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        let removeAction = UIAlertAction(title: "Remove", style: .destructive, handler: { [weak self] _ in
+            self?.viewModel.setFavorite(animeManga)
+        })
+        controller.addAction(cancelAction)
+        controller.addAction(removeAction)
+        present(controller, animated: true, completion: nil)
     }
         
     private func urlErrorHandle(_ error: Error) {
@@ -116,6 +139,22 @@ class FavoriteListVC: UIViewController {
         present(controller, animated: true, completion: nil)
     }
 
+    private func updateBtnUI(_ type: PageType) {
+        if type == .Anime {
+            animeBtn.backgroundColor = .white
+            animeBtn.tintColor = .systemGreen
+            
+            mangaBtn.backgroundColor = .systemGreen
+            mangaBtn.tintColor = .white
+        }
+        else if type == .Manga {
+            animeBtn.backgroundColor = .systemGreen
+            animeBtn.tintColor = .white
+
+            mangaBtn.backgroundColor = .white
+            mangaBtn.tintColor = .systemGreen            
+        }
+    }
     
     
 
