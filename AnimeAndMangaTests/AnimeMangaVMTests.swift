@@ -76,22 +76,22 @@ class AnimeMangaVMTests: XCTestCase {
         let mangaFavoriteList = UserDefaultManager.shared.getMangaFavoriteList()
         var fakeUiAnimeMangaList = [UiAnimeManga]()
 
-        fakeUiAnimeMangaList = animeFavoriteList.map { favoriteId -> UiAnimeManga in
-            return .init(id: favoriteId, imageUrl: "", title: "", rank: "", startDate: "", endDate: "", url: "", isFavorite: false)
+        fakeUiAnimeMangaList = animeFavoriteList.map { uiFavorite -> UiAnimeManga in
+            return .init(id: uiFavorite.id, imageUrl: "", title: "", rank: "", startDate: "", endDate: "", url: "", isFavorite: false)
         }
 
-        fakeUiAnimeMangaList += mangaFavoriteList.map { favoriteId -> UiAnimeManga in
-            return .init(id: favoriteId, imageUrl: "", title: "", rank: "", startDate: "", endDate: "", url: "", isFavorite: false)
+        fakeUiAnimeMangaList += mangaFavoriteList.map { uiFavorite -> UiAnimeManga in
+            return .init(id: uiFavorite.id, imageUrl: "", title: "", rank: "", startDate: "", endDate: "", url: "", isFavorite: false)
         }
 
         let favoriteUiAnimeList = vm.exposeGenFavoriteUiAnimeList(fakeUiAnimeMangaList)
 
-        favoriteUiAnimeList.forEach {
-            if $0.isFavorite {
-                XCTAssertTrue(animeFavoriteList.contains($0.id))
+        favoriteUiAnimeList.forEach { favoriteUiAnime in
+            if favoriteUiAnime.isFavorite {
+                XCTAssertTrue(animeFavoriteList.contains{($0.id == favoriteUiAnime.id)})
             }
             else {
-                XCTAssertFalse(animeFavoriteList.contains($0.id))
+                XCTAssertFalse(animeFavoriteList.contains{($0.id == favoriteUiAnime.id)})
             }
         }
     }
