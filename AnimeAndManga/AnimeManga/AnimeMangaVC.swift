@@ -15,7 +15,7 @@ class AnimeMangaVC: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     
-    private let addBtn = UIBarButtonItem(title: "Add", style: .done, target: self, action: nil)
+    private let addBtn = UIBarButtonItem(title: "Add", style: .done, target: nil, action: nil)
     private var viewModel: AnimeMangaVM!
     private let disposeBag = DisposeBag()
 
