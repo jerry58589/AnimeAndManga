@@ -19,7 +19,8 @@ class AnimeMangaCell: UITableViewCell {
     @IBOutlet weak var favoriteBtn: UIButton!
     
     private(set) var disposeBag = DisposeBag()
-    
+    private var task: URLSessionDataTask?
+
     override func awakeFromNib() {
         super.awakeFromNib()
         
@@ -28,6 +29,9 @@ class AnimeMangaCell: UITableViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         disposeBag = DisposeBag()
+        
+        task?.cancel()
+        task = nil
     }
     
     func updateUI(_ animeManga: UiAnimeManga) {
@@ -45,10 +49,10 @@ class AnimeMangaCell: UITableViewCell {
             favoriteBtn.setImage(image, for: .normal)
         }
         
-        DispatchQueue.global().async {
-            if let url = URL(string: animeManga.imageUrl), let data = try? Data(contentsOf: url) {
+        fetchImage(urlStr: animeManga.imageUrl, completion: { [weak self] respImage in
+            if let image = respImage {
                 DispatchQueue.main.async { [weak self] in
-                    self?.img.image = UIImage(data: data)
+                    self?.img.image = image
                 }
             }
             else {
@@ -56,6 +60,24 @@ class AnimeMangaCell: UITableViewCell {
                     self?.img.image = UIImage(named: "noImage")
                 }
             }
+        })
+    }
+    
+    private func fetchImage(urlStr: String, completion: @escaping (UIImage?) -> Void) {
+        if let url = URL(string: urlStr) {
+            task = URLSession.shared.dataTask(with: url) { [weak self] (data, response, error) in
+                if let data = data,
+                   let image = UIImage(data: data) {
+                    completion(image)
+                } else {
+                    completion(nil)
+                }
+                self?.task = nil
+            }
+            task?.resume()
+        }
+        else {
+            completion(nil)
         }
     }
     
